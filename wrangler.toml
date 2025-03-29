@@ -1,0 +1,32 @@
+name = "optimized-site"
+main = "server.js"
+compatibility_date = "2024-03-28"
+
+workers_dev = true
+
+[site]
+bucket = "./"
+include = [
+  "index.html",
+  "*.css",
+  "*.js",
+  "images/**/*",
+  "image/**/*"
+]
+exclude = [
+  "node_modules/**/*",
+  ".git/**/*",
+  "package-lock.json",
+  "wrangler.toml",
+  "README.md",
+  ".wrangler/**/*",
+  ".github/**/*"
+]
+
+[[rules]]
+type = "Data"
+globs = ["**/*.html", "**/*.css", "**/*.js", "**/*.jpg", "**/*.png", "**/*.gif", "**/*.json"]
+fallthrough = true
+
+[build]
+command = "npm install" 

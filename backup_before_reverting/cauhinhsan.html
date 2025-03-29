@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Đặt viewport cố định để hiển thị giao diện PC trên mọi thiết bị -->
+    <meta name="viewport" content="width=1024">
+    <title>BUILD PC TRUONG PHAT COMPUTER - Chọn Linh Kiện Máy Tính</title>
+    <link rel="stylesheet" href="buildsan.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tippy.js@6/dist/tippy.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tippy.js@6"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-desktop"></i>
+                <span>TRUONG PHAT COMPUTER</span>
+            </div>
+        </div>
+        <div class="contact-buttons">
+            <a href="https://zalo.me/0836768597" target="_blank" class="contact-button">
+                <i class="fab fa-zalo"></i> Liên hệ qua Zalo
+            </a>
+            <div class="phone-number">
+                <i class="fas fa-phone-alt"></i>
+                <span>0836768597</span>
+            </div>
+            <a href="https://www.facebook.com/tpcom.hb" target="_blank" class="contact-button">
+                <i class="fab fa-facebook"></i> Liên hệ qua Facebook
+            </a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="page-title">
+            <h1><i class="fas fa-tools"></i> XÂY DỰNG CẤU HÌNH PC <i class="fas fa-tools"></i></h1>
+            <p class="subtitle">Tùy chỉnh theo nhu cầu và ngân sách của bạn</p>
+        </div>
+
+        <div class="container">
+            <div class="build-progress">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-icon"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="step-label">Ngân sách</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-icon"><i class="fas fa-microchip"></i></div>
+                    <div class="step-label">CPU</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-icon"><i class="fas fa-gamepad"></i></div>
+                    <div class="step-label">Game</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-icon"><i class="fas fa-laptop-code"></i></div>
+                    <div class="step-label">Linh kiện</div>
+                </div>
+                <div class="progress-step" data-step="5">
+                    <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="step-label">Hoàn thành</div>
+                </div>
+            </div>
+
+            <!-- Phần tầm tiền -->
+            <section id="budget-range-selection" class="selection-section accent-section">
+                <div class="section-header">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h2>Chọn Cấu Hình Tầm Tiền Mong Muốn</h2>
+                </div>
+                <div class="slider-container">
+                    <div class="slider-value-container">
+                        <span id="budget-value-min">3 triệu</span>
+                        <span id="budget-value" class="budget-value-current">3 triệu</span>
+                        <span id="budget-value-max">30 triệu</span>
+                    </div>
+                    <input type="range" id="budget-range" min="3000000" max="30000000" step="1000000" value="3000000" class="slider">
+                    <div class="slider-ticks">
+                        <span>3M</span>
+                        <span>10M</span>
+                        <span>20M</span>
+                        <span>30M</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phần chọn loại CPU -->
+            <section id="cpu-type-selection" class="selection-section accent-section">
+                <div class="section-header">
+                    <i class="fas fa-microchip"></i>
+                    <h2>Chọn Loại CPU</h2>
+                </div>
+                <div class="cpu-brand-selection">
+                    <div class="brand-option" id="intel-option">
+                        <div class="brand-logo"><i class="fab fa-intel"></i></div>
+                        <div class="brand-name">INTEL</div>
+                    </div>
+                    <div class="brand-option" id="amd-option">
+                        <div class="brand-logo"><i class="fab fa-amd"></i></div>
+                        <div class="brand-name">AMD</div>
+                    </div>
+                </div>
+                <select id="cpu-type" name="cpu-type" class="dropdown hidden-dropdown" required>
+                    <option value="Intel">INTEL</option>
+                    <option value="Amd">AMD</option>
+                </select>
+            </section>
+
+            <!-- Phần chọn game -->
+            <section id="game-selection" class="selection-section accent-section">
+                <div class="section-header">
+                    <i class="fas fa-gamepad"></i>
+                    <h2>Chọn Game Muốn Chơi</h2>
+                </div>
+                <div class="game-grid">
+                    <div class="game-card" data-game="valorant">
+                        <div class="game-image"><img src="https://via.placeholder.com/150x100.png?text=Valorant" alt="Valorant"></div>
+                        <div class="game-name">Valorant</div>
+                    </div>
+                    <div class="game-card" data-game="csgo">
+                        <div class="game-image"><img src="https://via.placeholder.com/150x100.png?text=CSGO" alt="CS:GO"></div>
+                        <div class="game-name">CS:GO</div>
+                    </div>
+                    <div class="game-card" data-game="pubg">
+                        <div class="game-image"><img src="https://via.placeholder.com/150x100.png?text=PUBG" alt="PUBG"></div>
+                        <div class="game-name">PUBG</div>
+                    </div>
+                    <div class="game-card" data-game="lol">
+                        <div class="game-image"><img src="https://via.placeholder.com/150x100.png?text=LOL" alt="League of Legends"></div>
+                        <div class="game-name">Liên Minh Huyền Thoại</div>
+                    </div>
+                    <div class="game-card" data-game="gta-v">
+                        <div class="game-image"><img src="https://via.placeholder.com/150x100.png?text=GTAV" alt="GTA V"></div>
+                        <div class="game-name">GTA V</div>
+                    </div>
+                    <div class="game-card" data-game="elden-ring">
+                        <div class="game-image"><img src="https://via.placeholder.com/150x100.png?text=Elden+Ring" alt="Elden Ring"></div>
+                        <div class="game-name">Elden Ring</div>
+                    </div>
+                    <div class="game-card" data-game="god-of-war">
+                        <div class="game-image"><img src="https://via.placeholder.com/150x100.png?text=God+of+War" alt="God of War"></div>
+                        <div class="game-name">God of War</div>
+                    </div>
+                </div>
+                <select id="game-genre" name="game-genre" class="dropdown hidden-dropdown" required>
+                    <option value="">Chọn game</option>
+                    <option value="valorant">Valorant</option>
+                    <option value="csgo">CS:GO</option>
+                    <option value="pubg">PUBG</option>
+                    <option value="lol">Liên Minh Huyền Thoại (LOL)</option>
+                    <option value="gta-v">GTA V</option>
+                    <option value="elden-ring">Elden Ring</option>
+                    <option value="god-of-war">God of War</option>
+                </select>
+            </section>
+
+            <section id="component-selection" class="selection-section">
+                <div class="section-header">
+                    <i class="fas fa-laptop-code"></i>
+                    <h2>Lựa Chọn Linh Kiện Chính</h2>
+                </div>
+                <div class="container">
+                    <div class="components-grid">
+                        <div class="component">
+                            <div class="component-header">
+                                <i class="fas fa-microchip"></i>
+                                <h3>CPU</h3>
+                                <div class="compatibility-icon" id="cpu-compatibility"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <select id="cpu" name="cpu" class="dropdown">
+                                <option value="" disabled selected>Chọn CPU</option>
+                            </select>
+                            <div class="component-info-hover" id="cpu-info">
+                                <div class="specs-preview">Thông số sẽ hiển thị ở đây</div>
+                            </div>
+                        </div>
+
+                        <div class="component">
+                            <div class="component-header">
+                                <i class="fas fa-server"></i>
+                                <h3>Mainboard</h3>
+                                <div class="compatibility-icon" id="mainboard-compatibility"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <select id="mainboard" name="mainboard" class="dropdown">
+                                <option value="" disabled selected>Chọn Mainboard</option>
+                            </select>
+                            <div class="component-info-hover" id="mainboard-info">
+                                <div class="specs-preview">Thông số sẽ hiển thị ở đây</div>
+                            </div>
+                        </div>
+
+                        <div class="component">
+                            <div class="component-header">
+                                <i class="fas fa-tv"></i>
+                                <h3>Card Đồ Họa (VGA)</h3>
+                                <div class="compatibility-icon" id="vga-compatibility"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <select id="vga" name="vga" class="dropdown">
+                                <option value="" disabled selected>Chọn VGA</option>
+                            </select>
+                            <div class="component-info-hover" id="vga-info">
+                                <div class="specs-preview">Thông số sẽ hiển thị ở đây</div>
+                            </div>
+                        </div>
+
+                        <div class="component">
+                            <div class="component-header">
+                                <i class="fas fa-memory"></i>
+                                <h3>RAM</h3>
+                                <div class="compatibility-icon" id="ram-compatibility"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <select id="ram" name="ram" class="dropdown">
+                                <option value="" disabled selected>Chọn RAM</option>
+                            </select>
+                            <div class="component-info-hover" id="ram-info">
+                                <div class="specs-preview">Thông số sẽ hiển thị ở đây</div>
+                            </div>
+                        </div>
+
+                        <div class="component">
+                            <div class="component-header">
+                                <i class="fas fa-hdd"></i>
+                                <h3>Ổ Cứng SSD</h3>
+                                <div class="compatibility-icon" id="ssd-compatibility"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <select id="ssd" name="ssd" class="dropdown">
+                                <option value="" disabled selected>Chọn SSD</option>
+                            </select>
+                            <div class="component-info-hover" id="ssd-info">
+                                <div class="specs-preview">Thông số sẽ hiển thị ở đây</div>
+                            </div>
+                        </div>
+
+                        <div class="component">
+                            <div class="component-header">
+                                <i class="fas fa-bolt"></i>
+                                <h3>Nguồn (PSU)</h3>
+                                <div class="compatibility-icon" id="psu-compatibility"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <select id="psu" name="psu" class="dropdown">
+                                <option value="" disabled selected>Chọn PSU</option>
+                            </select>
+                            <div class="component-info-hover" id="psu-info">
+                                <div class="specs-preview">Thông số sẽ hiển thị ở đây</div>
+                            </div>
+                        </div>
+
+                        <div class="component">
+                            <div class="component-header">
+                                <i class="fas fa-cube"></i>
+                                <h3>Vỏ Case</h3>
+                                <div class="compatibility-icon" id="case-compatibility"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <select id="case" name="case" class="dropdown">
+                                <option value="" disabled selected>Chọn Case</option>
+                            </select>
+                            <div class="component-info-hover" id="case-info">
+                                <div class="specs-preview">Thông số sẽ hiển thị ở đây</div>
+                            </div>
+                        </div>
+
+                        <div class="component">
+                            <div class="component-header">
+                                <i class="fas fa-wind"></i>
+                                <h3>Tản Nhiệt CPU</h3>
+                                <div class="compatibility-icon" id="cpuCooler-compatibility"><i class="fas fa-check-circle"></i></div>
+                            </div>
+                            <select id="cpuCooler" name="cpuCooler" class="dropdown">
+                                <option value="" disabled selected>Chọn Tản Nhiệt CPU</option>
+                            </select>
+                            <div class="component-info-hover" id="cpuCooler-info">
+                                <div class="specs-preview">Thông số sẽ hiển thị ở đây</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="additional-selection" class="selection-section">
+                <div class="section-header">
+                    <i class="fas fa-plus-circle"></i>
+                    <h2>Lựa Chọn Thêm (Tùy Chọn)</h2>
+                </div>
+                <div class="container">
+                    <div class="components-grid">
+                        <div class="component">
+                            <div class="component-header">
+                                <i class="fas fa-database"></i>
+                                <h3>HDD</h3>
+                            </div>
+                            <select id="hdd" name="hdd" class="dropdown">
+                                <option value="" disabled selected>Chọn HDD</option>
+                            </select>
+                            <div class="component-info-hover" id="hdd-info">
+                                <div class="specs-preview">Thông số sẽ hiển thị ở đây</div>
+                            </div>
+                        </div>
+
+                        <div class="component">
+                            <div class="component-header">
+                                <i class="fas fa-desktop"></i>
+                                <h3>Màn Hình</h3>
+                            </div>
+                            <select id="monitor" name="monitor" class="dropdown">
+                                <option value="" disabled selected>Chọn Màn Hình</option>
+                            </select>
+                            <div class="component-info-hover" id="monitor-info">
+                                <div class="specs-preview">Thông số sẽ hiển thị ở đây</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="system-performance" class="selection-section">
+                <div class="section-header">
+                    <i class="fas fa-chart-line"></i>
+                    <h2>Hiệu Năng Dự Kiến</h2>
+                </div>
+                <div class="performance-charts">
+                    <div class="chart-container">
+                        <canvas id="performance-chart"></canvas>
+                    </div>
+                    <div class="performance-metrics">
+                        <div class="metric">
+                            <div class="metric-icon"><i class="fas fa-gamepad"></i></div>
+                            <div class="metric-label">Game:</div>
+                            <div class="metric-value" id="game-performance">Chưa xác định</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-icon"><i class="fas fa-film"></i></div>
+                            <div class="metric-label">Đồ họa/video:</div>
+                            <div class="metric-value" id="graphic-performance">Chưa xác định</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-icon"><i class="fas fa-laptop-code"></i></div>
+                            <div class="metric-label">Văn phòng:</div>
+                            <div class="metric-value" id="office-performance">Chưa xác định</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="selected-components">
+                <div class="section-header">
+                    <i class="fas fa-list-check"></i>
+                    <h2>Linh kiện đã chọn</h2>
+                </div>
+                <div id="selected-components-list" class="selected-components-grid"></div>
+            </section>
+
+            <div id="compatibility-alert" class="compatibility-alert hidden">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div class="alert-message" id="compatibility-message"></div>
+                <button id="close-alert" class="close-alert"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div id="summary-modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2><i class="fas fa-clipboard-list"></i> Cấu hình chi tiết</h2>
+                        <span class="close-modal">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modal-components-list"></div>
+                        <div id="modal-total-price">Tổng cộng: 0 VNĐ</div>
+                        <div id="image-preview-container"></div>
+                        <div class="share-options">
+                            <button id="share-facebook" class="share-button"><i class="fab fa-facebook"></i> Chia sẻ Facebook</button>
+                            <button id="copy-link" class="share-button"><i class="fas fa-link"></i> Sao chép liên kết</button>
+                            <button id="download-config" class="share-button"><i class="fas fa-download"></i> Tải cấu hình</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section id="total-price" class="total-price">
+                <h2>Tổng Tiền Dự Kiến</h2>
+                <p>0 VNĐ</p>
+                <div class="price-breakdown">
+                    <button id="view-breakdown" class="view-breakdown-btn"><i class="fas fa-receipt"></i> Xem chi tiết</button>
+                </div>
+            </section>
+
+            <div class="button-group">
+                <button type="button" class="action-button secondary-btn" id="reset-button">
+                    <i class="fas fa-redo"></i> Làm mới
+                </button>
+                <button type="button" class="action-button primary-btn" id="calculate-button">
+                    <i class="fas fa-clipboard-check"></i> XEM CHI TIẾT VÀ ĐÁNH GIÁ
+                </button>
+                <button type="button" class="action-button accent-btn" id="save-button">
+                    <i class="fas fa-save"></i> Lưu cấu hình
+                </button>
+            </div>
+            
+            <div class="config-table fixed-bottom">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Thành phần</th>
+                            <th>Tên</th>
+                            <th>Điểm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CPU</td>
+                            <td id="cpu-name">...</td>
+                            <td id="cpu-score">...</td>
+                        </tr>
+                        <tr>
+                            <td>Mainboard</td>
+                            <td id="mainboard-name">...</td>
+                            <td id="mainboard-score">...</td>
+                        </tr>
+                        <tr>
+                            <td>VGA</td>
+                            <td id="vga-name">...</td>
+                            <td id="vga-score">...</td>
+                        </tr>
+                        <tr>
+                            <td>SSD</td>
+                            <td id="ssd-name">...</td>
+                            <td id="ssd-score">...</td>
+                        </tr>
+                        <tr>
+                            <td>RAM</td>
+                            <td id="ram-name">...</td>
+                            <td id="ram-score">...</td>
+                        </tr>
+                        <tr>
+                            <td>CPU Cooler</td>
+                            <td id="cpu-cooler-name">...</td>
+                            <td id="cpu-cooler-score">...</td>
+                        </tr>
+                        <tr>
+                            <td>Nguồn</td>
+                            <td id="psu-name">...</td>
+                            <td id="psu-score">...</td>
+                        </tr>
+                        <tr>
+                            <td>Case</td>
+                            <td id="case-name">...</td>
+                            <td id="case-score">...</td>
+                        </tr>
+                        <tr class="score-row">
+                            <th colspan="2">Tổng điểm bộ máy</th>
+                            <th id="total-score">...</th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="socket-message" class="system-message"></div>
+                <div id="score-message" class="system-message"></div>
+                <div id="upgrade-message" class="system-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-desktop"></i> TRUONG PHAT COMPUTER
+            </div>
+            <div class="footer-contact">
+                <div><i class="fas fa-map-marker-alt"></i> Địa chỉ: Hòa Bình, Việt Nam</div>
+                <div><i class="fas fa-phone"></i> Hotline: 0836768597</div>
+                <div><i class="fas fa-envelope"></i> Email: contact@truongphatcomputer.com</div>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.facebook.com/tpcom.hb" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 BUILD PC TRUONG PHAT COMPUTER. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="to-top-button" class="to-top-button">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script src="components-data.js"></script>
+    <script src="buildsan.js"></script>
+    <script>
+        // JavaScript cho các tính năng mới
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý cho nút CPU brand
+            const intelOption = document.getElementById('intel-option');
+            const amdOption = document.getElementById('amd-option');
+            const cpuTypeDropdown = document.getElementById('cpu-type');
+            
+            intelOption.addEventListener('click', function() {
+                intelOption.classList.add('selected');
+                amdOption.classList.remove('selected');
+                cpuTypeDropdown.value = 'Intel';
+                cpuTypeDropdown.dispatchEvent(new Event('change'));
+            });
+            
+            amdOption.addEventListener('click', function() {
+                amdOption.classList.add('selected');
+                intelOption.classList.remove('selected');
+                cpuTypeDropdown.value = 'Amd';
+                cpuTypeDropdown.dispatchEvent(new Event('change'));
+            });
+            
+            // Xử lý cho các game card
+            const gameCards = document.querySelectorAll('.game-card');
+            const gameGenreDropdown = document.getElementById('game-genre');
+            
+            gameCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Bỏ chọn tất cả các card
+                    gameCards.forEach(c => c.classList.remove('selected'));
+                    // Chọn card hiện tại
+                    this.classList.add('selected');
+                    // Cập nhật dropdown
+                    gameGenreDropdown.value = this.dataset.game;
+                    gameGenreDropdown.dispatchEvent(new Event('change'));
+                });
+            });
+            
+            // Xử lý cho nút scroll to top
+            const toTopButton = document.getElementById('to-top-button');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    toTopButton.classList.add('show');
+                } else {
+                    toTopButton.classList.remove('show');
+                }
+            });
+            
+            toTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Khởi tạo tooltips cho các thành phần
+            try {
+                tippy('[data-tippy-content]');
+            } catch (e) {
+                console.log('Tippy initialization error:', e);
+            }
+            
+            // Nút close alert
+            const closeAlert = document.getElementById('close-alert');
+            if (closeAlert) {
+                closeAlert.addEventListener('click', function() {
+                    document.getElementById('compatibility-alert').classList.add('hidden');
+                });
+            }
+            
+            // Xử lý nút reset
+            const resetButton = document.getElementById('reset-button');
+            if (resetButton) {
+                resetButton.addEventListener('click', function() {
+                    if (confirm('Bạn có chắc muốn làm mới toàn bộ cấu hình?')) {
+                        location.reload();
+                    }
+                });
+            }
+            
+            // Khởi tạo biểu đồ hiệu năng
+            const ctx = document.getElementById('performance-chart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Gaming', 'Đồ họa', 'Văn phòng', 'Livestream', 'Render video', 'Đa nhiệm'],
+                        datasets: [{
+                            label: 'Hiệu năng',
+                            data: [0, 0, 0, 0, 0, 0],
+                            fill: true,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            pointBackgroundColor: 'rgb(255, 99, 132)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(255, 99, 132)'
+                        }]
+                    },
+                    options: {
+                        elements: {
+                            line: {
+                                borderWidth: 3
+                            }
+                        },
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    display: true
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 10
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Mặc định chọn Intel
+            intelOption.click();
+        });
+    </script>
+</body>
+
+</html>

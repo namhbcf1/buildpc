@@ -1,0 +1,245 @@
+<div class="main-content-split">
+    <!-- Primary content (left side) -->
+    <div class="main-content-primary">
+        <div id="comparison-primary" class="selection-section fade-in-up">
+            <div class="section-header">
+                <i class="fas fa-chart-line"></i>
+                <h2>Phân tích hiệu năng</h2>
+            </div>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3><i class="fas fa-chart-line"></i> Phân tích hiệu năng/giá</h3>
+                    <div id="price-performance-chart"></div>
+                    <div class="suggestion-box">
+                        <h4>Gợi ý tối ưu</h4>
+                        <ul id="optimization-suggestions"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="features-section" class="selection-section fade-in-up">
+            <div class="section-header">
+                <i class="fas fa-star"></i>
+                <h2>Tính năng nổi bật</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Bảo hành nhanh chóng</h3>
+                    <p>1 đổi 1 trong 15 ngày đầu tiên</p>
+                    <div class="feature-details">
+                        <span class="feature-badge">HOT</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-truck"></i>
+                    <h3>Miễn phí vận chuyển</h3>
+                    <p>Cho đơn hàng từ 5 triệu</p>
+                    <div class="feature-details">
+                        <span class="eta-delivery">Nhận hàng trong 24h</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-tools"></i>
+                    <h3>Lắp đặt miễn phí</h3>
+                    <p>Tại cửa hàng hoặc tại nhà</p>
+                    <div class="feature-action">
+                        <a href="#" class="schedule-btn">Đặt lịch ngay</a>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>Hỗ trợ 24/7</h3>
+                    <p>Tư vấn chuyên nghiệp</p>
+                    <div class="feature-contact">
+                        <i class="fab fa-zalo"></i> <i class="fab fa-facebook-messenger"></i>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>Quà tặng kèm</h3>
+                    <p>Bàn di chuột, bàn phím cơ</p>
+                    <div class="feature-details">
+                        <span class="bonus-value">Trị giá 500.000đ</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Bảo hành tận nhà</h3>
+                    <p>Dịch vụ bảo hành tận nơi</p>
+                    <div class="feature-details">
+                        <span class="warranty-coverage">Toàn quốc</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar content (right side) -->
+    <div class="main-content-sidebar">
+        <!-- Expert suggestions -->
+        <div class="sidebar-section expert-suggestions fade-in-up">
+            <div class="section-header">
+                <i class="fas fa-lightbulb"></i>
+                <h3>Gợi ý từ chuyên gia</h3>
+            </div>
+            <div class="suggestion-cards">
+                <div class="suggestion-card">
+                    <div class="expert-tip">
+                        <i class="fas fa-bolt"></i>
+                        <div class="tip-content">
+                            <h4>Tip hiệu năng</h4>
+                            <p id="performance-tip">Với game <span id="selected-game-name">đã chọn</span>, CPU và GPU cần cân bằng để tối ưu FPS.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="suggestion-card">
+                    <div class="expert-tip">
+                        <i class="fas fa-chart-pie"></i>
+                        <div class="tip-content">
+                            <h4>Phân bổ ngân sách</h4>
+                            <p>Nên phân bổ 40% ngân sách cho GPU, 25% cho CPU và 35% cho các linh kiện còn lại để có hiệu năng tốt nhất.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="suggestion-card">
+                    <div class="expert-tip">
+                        <i class="fas fa-forward"></i>
+                        <div class="tip-content">
+                            <h4>Đề xuất nâng cấp tương lai</h4>
+                            <p id="future-upgrade-suggestion">Chọn mainboard hỗ trợ PCIe 4.0 để dễ dàng nâng cấp GPU và SSD trong tương lai.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- So sánh cấu hình -->
+        <div class="sidebar-section fade-in-up">
+            <div class="section-header">
+                <i class="fas fa-microchip"></i>
+                <h3>So sánh cấu hình tương đương</h3>
+            </div>
+            <div id="alternative-configs"></div>
+        </div>
+
+        <!-- So sánh với các gói sẵn có -->
+        <div class="sidebar-section prebuilt-comparison fade-in-up">
+            <div class="section-header">
+                <i class="fas fa-box"></i>
+                <h3>So sánh với PC sẵn có</h3>
+            </div>
+            <div class="prebuilt-cards">
+                <div class="prebuilt-card better">
+                    <div class="prebuilt-header">
+                        <div class="prebuilt-title">Gaming Basic</div>
+                        <div class="prebuilt-price">9,900,000 ₫</div>
+                    </div>
+                    <div class="prebuilt-specs">
+                        <div class="spec-item"><i class="fas fa-microchip"></i> Core i5-12400F</div>
+                        <div class="spec-item"><i class="fas fa-tv"></i> RTX 3060</div>
+                        <div class="spec-item"><i class="fas fa-memory"></i> 16GB DDR4</div>
+                        <div class="spec-item"><i class="fas fa-hdd"></i> SSD 500GB</div>
+                    </div>
+                    <div class="prebuilt-comparison">
+                        <div class="comparison-result" id="basic-comparison">
+                            <span class="result-icon better"><i class="fas fa-check-circle"></i></span>
+                            <span class="result-text">Cấu hình của bạn mạnh hơn <strong>25%</strong></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="prebuilt-card worse">
+                    <div class="prebuilt-header">
+                        <div class="prebuilt-title">Gaming Pro</div>
+                        <div class="prebuilt-price">17,900,000 ₫</div>
+                    </div>
+                    <div class="prebuilt-specs">
+                        <div class="spec-item"><i class="fas fa-microchip"></i> Core i7-12700F</div>
+                        <div class="spec-item"><i class="fas fa-tv"></i> RTX 3070</div>
+                        <div class="spec-item"><i class="fas fa-memory"></i> 32GB DDR4</div>
+                        <div class="spec-item"><i class="fas fa-hdd"></i> SSD 1TB</div>
+                    </div>
+                    <div class="prebuilt-comparison">
+                        <div class="comparison-result" id="pro-comparison">
+                            <span class="result-icon worse"><i class="fas fa-exclamation-circle"></i></span>
+                            <span class="result-text">Cấu hình của bạn yếu hơn <strong>15%</strong></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="prebuilt-card equal">
+                    <div class="prebuilt-header">
+                        <div class="prebuilt-title">Creator Edition</div>
+                        <div class="prebuilt-price">23,900,000 ₫</div>
+                    </div>
+                    <div class="prebuilt-specs">
+                        <div class="spec-item"><i class="fas fa-microchip"></i> Ryzen 7 5800X</div>
+                        <div class="spec-item"><i class="fas fa-tv"></i> RTX 3080</div>
+                        <div class="spec-item"><i class="fas fa-memory"></i> 32GB DDR4</div>
+                        <div class="spec-item"><i class="fas fa-hdd"></i> SSD 2TB</div>
+                    </div>
+                    <div class="prebuilt-comparison">
+                        <div class="comparison-result" id="creator-comparison">
+                            <span class="result-icon equal"><i class="fas fa-equals"></i></span>
+                            <span class="result-text">Tương đương về giá/hiệu năng</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="comparison-footnote">
+                * So sánh về hiệu năng trên các game phổ biến và giá trị đồng tiền
+            </div>
+        </div>
+
+        <!-- Phương thức thanh toán -->
+        <div class="sidebar-section payment-options fade-in-up">
+            <div class="section-header">
+                <i class="fas fa-credit-card"></i>
+                <h3>Phương thức thanh toán</h3>
+            </div>
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Tiền mặt</span>
+                </div>
+                <div class="payment-method">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Thẻ ATM</span>
+                </div>
+                <div class="payment-method">
+                    <i class="fas fa-university"></i>
+                    <span>Chuyển khoản</span>
+                </div>
+                <div class="payment-method">
+                    <i class="fas fa-percentage"></i>
+                    <span>Trả góp 0%</span>
+                </div>
+            </div>
+            
+            <div class="installment-calculator">
+                <div class="section-header">
+                    <i class="fas fa-calculator"></i>
+                    <h4>Tính toán trả góp</h4>
+                </div>
+                <div class="installment-options">
+                    <div class="installment-option">
+                        <div class="option-header">6 tháng</div>
+                        <div class="option-amount" id="installment-6">1.xxx.xxx₫/tháng</div>
+                    </div>
+                    <div class="installment-option">
+                        <div class="option-header">12 tháng</div>
+                        <div class="option-amount" id="installment-12">xxx.xxx₫/tháng</div>
+                    </div>
+                    <div class="installment-option recommended">
+                        <div class="option-header">18 tháng</div>
+                        <div class="option-amount" id="installment-18">xxx.xxx₫/tháng</div>
+                        <div class="option-badge">Phổ biến</div>
+                    </div>
+                </div>
+                <div class="installment-note">
+                    * Áp dụng với thẻ tín dụng của các ngân hàng liên kết
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
