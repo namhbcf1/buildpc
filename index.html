@@ -20,6 +20,82 @@
     <link rel="preload" as="image" href="optimized-images/images/csgo.jpg">
     <link rel="preload" as="image" href="optimized-images/images/pubg.jpg">
     <link rel="preload" as="image" href="optimized-images/images/lol.jpg">
+    <style>
+        /* Nâng cao hiệu ứng cho các bước tiến trình */
+        .build-progress {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .build-progress::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 2px;
+            width: 100%;
+            background-color: #e0e0e0;
+            z-index: 1;
+        }
+        
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            color: #757575;
+            font-size: 1.2rem;
+        }
+        
+        .progress-step.active .step-icon,
+        .progress-step:hover .step-icon {
+            background-color: #1976d2;
+            border-color: #1976d2;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 2px 10px rgba(25, 118, 210, 0.3);
+        }
+        
+        .progress-step.active .step-label {
+            color: #1976d2;
+            font-weight: bold;
+        }
+        
+        .step-label {
+            font-size: 0.9rem;
+            color: #616161;
+            transition: all 0.3s ease;
+        }
+        
+        /* Hiệu ứng khi hover */
+        .progress-step:hover .step-label {
+            color: #1976d2;
+        }
+        
+        /* CSS cho bước đã hoàn thành */
+        .progress-step.completed .step-icon {
+            background-color: #4caf50;
+            border-color: #4caf50;
+            color: white;
+        }
+    </style>
     <script>
         // Fix for "exports is not defined" errors
         if (typeof exports === 'undefined') {
@@ -1113,6 +1189,121 @@
                     return {};
                 }
             };
+        });
+
+        // Xử lý điều hướng và các bước tiến trình
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressSteps = document.querySelectorAll('.progress-step');
+            const sections = [
+                document.getElementById('budget-range-selection'),
+                document.getElementById('cpu-type-selection'),
+                document.getElementById('game-selection'),
+                document.getElementById('component-selection'),
+                null // Final step (summary)
+            ];
+            
+            // Kết nối mỗi bước với các sự kiện
+            progressSteps.forEach((step, index) => {
+                // Cho phép click vào các bước
+                step.addEventListener('click', function() {
+                    // Chỉ cho phép chuyển đến các bước trước hoặc hiện tại +1
+                    const currentActiveStep = document.querySelector('.progress-step.active');
+                    const currentIndex = parseInt(currentActiveStep.getAttribute('data-step'));
+                    const clickedIndex = parseInt(step.getAttribute('data-step'));
+                    
+                    if (clickedIndex <= currentIndex + 1) {
+                        // Cập nhật bước hiện tại
+                        progressSteps.forEach(s => s.classList.remove('active'));
+                        step.classList.add('active');
+                        
+                        // Hiển thị phần tương ứng
+                        if (sections[index]) {
+                            sections.forEach(section => {
+                                if (section) section.style.display = 'none';
+                            });
+                            sections[index].style.display = 'block';
+                        }
+                        
+                        // Cuộn trang đến phần hiện tại
+                        if (sections[index]) {
+                            sections[index].scrollIntoView({behavior: 'smooth'});
+                        }
+                    }
+                });
+            });
+            
+            // Giám sát các sự kiện tương tác để tự động cập nhật bước
+            const budgetSlider = document.getElementById('budget-range');
+            if (budgetSlider) {
+                budgetSlider.addEventListener('change', function() {
+                    if (progressSteps[0].classList.contains('active')) {
+                        // Kích hoạt bước tiếp theo sau khi chọn ngân sách
+                        setTimeout(() => {
+                            progressSteps[1].click();
+                        }, 500);
+                    }
+                });
+            }
+            
+            // Theo dõi chọn loại CPU
+            const cpuOptions = document.querySelectorAll('.brand-option');
+            cpuOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    if (progressSteps[1].classList.contains('active')) {
+                        // Kích hoạt bước tiếp theo sau khi chọn CPU
+                        setTimeout(() => {
+                            progressSteps[2].click();
+                        }, 500);
+                    }
+                });
+            });
+            
+            // Theo dõi chọn game
+            const gameCards = document.querySelectorAll('.game-card');
+            gameCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    if (progressSteps[2].classList.contains('active')) {
+                        // Kích hoạt bước tiếp theo sau khi chọn game
+                        setTimeout(() => {
+                            progressSteps[3].click();
+                        }, 500);
+                    }
+                });
+            });
+            
+            // Kích hoạt bước hoàn thành khi chọn đủ linh kiện
+            function checkComponentSelection() {
+                const requiredDropdowns = ['cpu', 'mainboard', 'vga', 'ram', 'ssd', 'psu', 'case'];
+                let allSelected = true;
+                
+                requiredDropdowns.forEach(id => {
+                    const dropdown = document.getElementById(id);
+                    if (dropdown && (!dropdown.value || dropdown.value === '')) {
+                        allSelected = false;
+                    }
+                });
+                
+                if (allSelected && progressSteps[3].classList.contains('active')) {
+                    progressSteps[4].classList.add('active');
+                }
+            }
+            
+            // Giám sát các dropdown chọn linh kiện
+            const componentDropdowns = document.querySelectorAll('.component select');
+            componentDropdowns.forEach(dropdown => {
+                dropdown.addEventListener('change', checkComponentSelection);
+            });
+            
+            // Kích hoạt nút Tự Động Chọn
+            const autoSelectBtn = document.getElementById('manual-auto-select');
+            if (autoSelectBtn) {
+                autoSelectBtn.addEventListener('click', function() {
+                    // Khi nhấn nút tự động chọn, chuyển đến bước linh kiện
+                    setTimeout(() => {
+                        progressSteps[3].click();
+                    }, 800);
+                });
+            }
         });
     </script>
 </body>
