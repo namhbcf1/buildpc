@@ -106,9 +106,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-wrap: nowrap;
+            background: linear-gradient(135deg, #0066cc, #0052a3);
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         
         .logo-container {
@@ -125,12 +126,13 @@
         
         .logo i {
             margin-right: 8px;
-            color: #1976d2;
+            color: #ffeb3b;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
         .contact-buttons {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             gap: 8px;
         }
         
@@ -138,27 +140,65 @@
             padding: 6px 10px;
             font-size: 0.85rem;
             white-space: nowrap;
+            color: white;
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
         
         .phone-number a {
+            display: flex;
+            align-items: center;
             font-size: 0.85rem;
             padding: 6px 10px;
+            white-space: nowrap;
+            color: white;
+            text-decoration: none;
+            background: linear-gradient(45deg, #ff9a38, #ffcb7c);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .phone-number a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 154, 56, 0.3);
         }
         
         /* Responsive cho điện thoại */
         @media (max-width: 768px) {
             header {
-                flex-direction: column;
-                align-items: center;
                 padding: 8px;
+                flex-direction: row;
+                justify-content: space-between;
             }
             
             .logo-container {
-                margin-bottom: 8px;
+                margin-bottom: 0;
+            }
+            
+            .logo span {
+                font-size: 14px;
             }
             
             .contact-buttons {
-                justify-content: center;
+                justify-content: flex-end;
+                gap: 4px;
+            }
+            
+            .contact-button, .phone-number a {
+                padding: 4px 6px;
+                font-size: 0.7rem;
+            }
+            
+            .contact-button i, .phone-number a i {
+                font-size: 0.8rem;
+                margin-right: 4px;
             }
             
             .progress-step .step-icon {
@@ -311,12 +351,12 @@
         <div class="logo-container">
             <div class="logo">
                 <i class="fas fa-desktop"></i>
-                <span>TRUONG PHAT COMPUTER</span>
+                <span>TRUONG PHAT</span>
             </div>
         </div>
         <div class="contact-buttons">
             <a href="https://zalo.me/0836768597" target="_blank" class="contact-button">
-                <i class="fab fa-zalo"></i> Liên hệ qua Zalo
+                <i class="fab fa-zalo"></i> Zalo
             </a>
             <div class="phone-number">
                 <a href="tel:0836768597">
@@ -325,7 +365,7 @@
                 </a>
             </div>
             <a href="https://www.facebook.com/tpcom.hb" target="_blank" class="contact-button">
-                <i class="fab fa-facebook"></i> Liên hệ qua Facebook
+                <i class="fab fa-facebook"></i> Facebook
             </a>
         </div>
     </header>
