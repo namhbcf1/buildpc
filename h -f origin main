@@ -1,0 +1,10 @@
+* [33mb294851[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Dọn dẹp file: Loại bỏ các file không cần thiết
+* [33mea5e708[m Thêm chức năng điều hướng và hiệu ứng cho các bước tiến trình
+* [33mf6858d0[m Remove performance-calculator.js file
+* [33mced8d1f[m Implement remove_comparison.js and update server.js to remove performance API
+* [33m593f6ec[m Add performance-disabler.js script to override removed functionality
+* [33m4481352[m Remove 'So sánh & Gợi ý' section from HTML and add JavaScript removal instructions
+* [33mcbb345f[m Initial commit: Upload website code
+* [33mac61a67[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Remove 'So sánh & Gợi ý' section from HTML and add JavaScript removal instructions
+* [33m1fd4933[m Assistant checkpoint: Cải thiện giao diện và hiệu suất web
+* [33mb6ff504[m Checkpoint before assistant change: Remove unused dependencies (fs-extra, sharp).  Optimize package size.

@@ -1,0 +1,15 @@
+title: PC Builder - TRUONG PHAT COMPUTER
+description: Trang web xây dựng cấu hình PC tùy chỉnh theo nhu cầu và ngân sách
+baseurl: ""
+url: "https://namhbcf1.github.io/buildpc"
+github_username: namhbcf1
+
+# Vì chúng ta sử dụng .nojekyll, nên các cài đặt dưới đây chỉ là tham khảo
+# và không ảnh hưởng đến trang web thực tế
+markdown: kramdown
+exclude:
+  - node_modules
+  - package.json
+  - package-lock.json
+  - README.md
+  - server.js 
