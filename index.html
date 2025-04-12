@@ -102,11 +102,12 @@
         
         /* CSS cho header thu gọn */
         header {
-            padding: 10px 15px;
+            padding: 15px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
+            flex-direction: column;
             background: linear-gradient(135deg, #0066cc, #0052a3);
             color: #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -115,6 +116,8 @@
         .logo-container {
             display: flex;
             align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
         }
         
         .logo {
@@ -132,19 +135,28 @@
         
         .contact-buttons {
             display: flex;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
+            flex-direction: column;
             gap: 8px;
+            width: 100%;
+            max-width: 250px;
+            align-items: center;
         }
         
         .contact-button {
-            padding: 6px 10px;
-            font-size: 0.85rem;
+            padding: 8px 15px;
+            font-size: 0.9rem;
             white-space: nowrap;
             color: white;
             text-decoration: none;
             background-color: rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .contact-button:hover {
@@ -155,14 +167,17 @@
         .phone-number a {
             display: flex;
             align-items: center;
-            font-size: 0.85rem;
-            padding: 6px 10px;
+            justify-content: center;
+            font-size: 0.9rem;
+            padding: 8px 15px;
             white-space: nowrap;
             color: white;
             text-decoration: none;
             background: linear-gradient(45deg, #ff9a38, #ffcb7c);
             border-radius: 8px;
             transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
         }
         
         .phone-number a:hover {
@@ -172,33 +187,49 @@
         
         /* Responsive cho điện thoại */
         @media (max-width: 768px) {
+            .main-container {
+                margin-top: 150px;
+            }
+            
             header {
-                padding: 8px;
-                flex-direction: row;
-                justify-content: space-between;
+                padding: 10px;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
             }
             
             .logo-container {
-                margin-bottom: 0;
+                margin-bottom: 10px;
             }
             
             .logo span {
-                font-size: 14px;
+                font-size: 16px;
             }
             
             .contact-buttons {
-                justify-content: flex-end;
-                gap: 4px;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                max-width: 250px;
+                gap: 8px;
             }
             
             .contact-button, .phone-number a {
-                padding: 4px 6px;
-                font-size: 0.7rem;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
             
             .contact-button i, .phone-number a i {
-                font-size: 0.8rem;
-                margin-right: 4px;
+                font-size: 1rem;
+                margin-right: 8px;
             }
             
             .progress-step .step-icon {

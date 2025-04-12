@@ -7,6 +7,7 @@
         padding: 0.5rem;
         width: 100%;
         overflow-x: hidden;
+        margin-top: 150px; /* Add space below header */
     }
     
     .container {
@@ -15,24 +16,30 @@
         margin: 0;
     }
 
-    /* Header size reduction and horizontal layout for contact items */
+    /* Header size reduction and centered layout for contact items */
     header, .header {
-        padding: 0.5rem;
+        padding: 0.75rem 0.5rem;
         height: auto;
-        min-height: 60px;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        justify-content: space-between;
+        min-height: 140px;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
     }
 
     header .logo {
         max-width: 180px;
-        font-size: 14px;
+        font-size: 16px;
+        margin-bottom: 8px;
     }
     
     header .logo span {
-        font-size: 14px;
+        font-size: 16px;
     }
     
     .header .header-title {
@@ -42,26 +49,34 @@
     }
 
     header .contact-buttons {
-        flex-wrap: nowrap;
-        flex-direction: row;
-        justify-content: flex-end;
-        margin-top: 0;
-        max-width: 70%;
+        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0.5rem;
+        width: 100%;
+        max-width: 250px;
+        gap: 8px;
     }
     
     header .contact-buttons a,
     header .phone-number,
     .header-contact {
-        padding: 0.3rem 0.4rem;
-        font-size: 10px;
-        margin: 0 0.1rem;
-        white-space: nowrap;
+        padding: 0.5rem 0.75rem;
+        font-size: 14px;
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
     }
     
     header .contact-buttons a i,
     header .phone-number i {
-        margin-right: 4px;
-        font-size: 12px;
+        margin-right: 8px;
+        font-size: 16px;
     }
     
     /* Typography adjustments */
@@ -230,34 +245,41 @@
 
 /* Extra small mobile devices (under 480px) - further compressing header */
 @media (max-width: 480px) {
+    .main-container {
+        margin-top: 140px; /* Slightly less space below header */
+    }
+    
     header, .header {
-        padding: 0.4rem;
-        min-height: 50px;
+        min-height: 130px;
+        padding: 0.5rem;
     }
     
     header .logo {
         max-width: 150px;
-        font-size: 12px;
+        font-size: 14px;
+        margin-bottom: 5px;
     }
     
     header .logo i {
-        font-size: 14px;
+        font-size: 16px;
     }
     
     header .contact-buttons {
-        max-width: 60%;
+        max-width: 220px;
+        gap: 6px;
     }
     
     header .contact-buttons a,
     header .phone-number,
     .header-contact {
-        padding: 0.2rem 0.3rem;
-        font-size: 9px;
+        padding: 0.4rem 0.6rem;
+        font-size: 12px;
     }
     
     header .contact-buttons a i,
     header .phone-number i {
-        font-size: 10px;
+        font-size: 14px;
+        margin-right: 6px;
     }
     
     .brand-option {
@@ -284,45 +306,41 @@
 
 /* Very small mobile devices (under 380px) - minimal header */
 @media (max-width: 380px) {
+    .main-container {
+        margin-top: 130px; /* Even less space below header */
+    }
+    
     header, .header {
-        padding: 0.3rem;
+        min-height: 120px;
+        padding: 0.4rem;
     }
     
     header .logo {
         max-width: 120px;
-        font-size: 11px;
+        font-size: 12px;
+        margin-bottom: 4px;
     }
     
-    header .logo span {
-        display: none;
-    }
-    
-    header .logo::after {
-        content: "TP";
-        font-weight: bold;
-        color: #ffeb3b;
+    header .logo i {
+        font-size: 14px;
     }
     
     header .contact-buttons {
-        max-width: 65%;
+        max-width: 200px;
+        gap: 5px;
     }
     
     header .contact-buttons a,
     header .phone-number,
     .header-contact {
-        padding: 0.2rem;
-        font-size: 8px;
-    }
-    
-    header .contact-buttons a span,
-    header .phone-number span {
-        display: none;
+        padding: 0.35rem 0.5rem;
+        font-size: 10px;
     }
     
     header .contact-buttons a i,
     header .phone-number i {
         font-size: 12px;
-        margin-right: 0;
+        margin-right: 5px;
     }
 }
 
