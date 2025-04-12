@@ -1,0 +1,30 @@
+// Instructions for removing "So sánh & Gợi ý" JavaScript code
+
+Since we removed the "So sánh & Gợi ý" (Comparison & Suggestions) section from the HTML, 
+we need to remove the related JavaScript code as well. Here are the parts to remove:
+
+1. In the updateAllPerformanceMetrics function (around line 2165):
+   Find and remove or comment out this line:
+   ```
+   updatePerformanceAnalysis(gamePerformance, graphicPerformance, officePerformance, livestreamPerformance, renderPerformance);
+   ```
+
+2. Remove the entire updatePerformanceAnalysis function (around lines 2170-2225)
+
+3. Remove the entire addRecommendation function (around lines 2227-2233)
+
+4. Search for and remove any other references to updatePerformanceAnalysis (like line 2836)
+
+5. Check for and remove any code that references these IDs:
+   - price-performance-chart
+   - optimization-suggestions
+   - performance-tip
+   - selected-game-name
+   - future-upgrade-suggestion
+   - basic-comparison
+   - pro-comparison
+   - creator-comparison
+   - installment-6, installment-12, installment-18
+   - alternative-configs
+
+This will ensure all related JavaScript functionality is removed along with the HTML section. 
