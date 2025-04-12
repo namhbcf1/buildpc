@@ -1,5 +1,60 @@
 /* Mobile CSS Optimizations - Responsive styles for mobile devices */
 
+/* Base styles for all devices - applying horizontal header layout regardless of screen size */
+header, .header {
+    padding: 0.5rem;
+    height: auto;
+    min-height: 70px;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+header .logo {
+    max-width: 150px;
+    font-size: 16px;
+    margin-bottom: 0;
+    margin-right: 8px;
+}
+
+header .contact-buttons {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 0;
+    width: auto;
+    max-width: none;
+    gap: 10px;
+}
+
+header .contact-buttons a,
+header .phone-number,
+.header-contact {
+    padding: 0.4rem 0.8rem;
+    font-size: 14px;
+    margin: 0;
+    width: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+}
+
+header .contact-buttons a i,
+header .phone-number i {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
 /* Base mobile styles for devices up to 768px */
 @media (max-width: 768px) {
     /* Main container adjustments */
@@ -16,27 +71,11 @@
         margin: 0;
     }
 
-    /* Header size reduction and horizontal layout for contact items */
-    header, .header {
-        padding: 0.5rem;
-        height: auto;
-        min-height: 80px; /* Reduced height */
-        flex-wrap: nowrap;
-        flex-direction: row; /* Changed to row */
-        justify-content: space-between;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-    }
-
+    /* Header size reduction already defined above */
+    
     header .logo {
         max-width: 130px;
         font-size: 14px;
-        margin-bottom: 0;
-        margin-right: 8px;
     }
     
     header .logo span {
@@ -50,13 +89,6 @@
     }
 
     header .contact-buttons {
-        flex-wrap: nowrap;
-        flex-direction: row; /* Changed to row */
-        justify-content: flex-end;
-        align-items: center;
-        margin-top: 0;
-        width: auto;
-        max-width: none;
         gap: 6px;
     }
     
@@ -65,13 +97,6 @@
     .header-contact {
         padding: 0.4rem 0.5rem;
         font-size: 12px;
-        margin: 0;
-        width: auto;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 6px;
     }
     
     header .contact-buttons a i,
@@ -396,6 +421,27 @@
     .component-card {
         flex-direction: row;
         align-items: center;
+    }
+}
+
+/* Make sure the header has good spacing for desktop views */
+@media (min-width: 992px) {
+    header, .header {
+        padding: 0.6rem 2rem;
+    }
+    
+    header .logo {
+        max-width: 180px;
+    }
+    
+    header .contact-buttons {
+        gap: 12px;
+    }
+    
+    header .contact-buttons a,
+    header .phone-number,
+    .header-contact {
+        padding: 0.5rem 1rem;
     }
 }
 
