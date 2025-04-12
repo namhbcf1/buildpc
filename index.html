@@ -116,6 +116,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/tippy.js@6"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tippy.js@6/dist/tippy.css">
+    <script src="./performance-disabler.js"></script>
 </head>
 
 <body>
@@ -468,138 +469,6 @@
                             </select>
                             <div class="component-info-hover" id="monitor-info">
                                 <div class="specs-preview"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="system-performance" class="selection-section">
-                <div class="section-header">
-                    <i class="fas fa-chart-line"></i>
-                    <h2>Hiệu Năng Dự Kiến</h2>
-                </div>
-                <div class="performance-section">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="performance-details">
-                                <div class="chart-overview">
-                                    <h4 class="section-title"><i class="fas fa-chart-line"></i> Hiệu năng</h4>
-                                    <div class="performance-metrics-container">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="performance-metrics">
-                                                    <div class="performance-metric">
-                                                        <div class="metric-header">
-                                                            <i class="fas fa-gamepad"></i>
-                                                            <span data-score="0">Game</span>
-                                                        </div>
-                                                        <div class="progress">
-                                                            <div id="game-performance" class="progress-bar" role="progressbar" style="width: 0%"></div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="performance-metric">
-                                                        <div class="metric-header">
-                                                            <i class="fas fa-photo-video"></i>
-                                                            <span data-score="0">Đồ họa</span>
-                                                        </div>
-                                                        <div class="progress">
-                                                            <div id="graphic-performance" class="progress-bar" role="progressbar" style="width: 0%"></div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="performance-metric">
-                                                        <div class="metric-header">
-                                                            <i class="fas fa-file-word"></i>
-                                                            <span data-score="0">Văn phòng</span>
-                                                        </div>
-                                                        <div class="progress">
-                                                            <div id="office-performance" class="progress-bar" role="progressbar" style="width: 0%"></div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="performance-metric">
-                                                        <div class="metric-header">
-                                                            <i class="fas fa-broadcast-tower"></i>
-                                                            <span data-score="0">Livestream</span>
-                                                        </div>
-                                                        <div class="progress">
-                                                            <div id="livestream-performance" class="progress-bar" role="progressbar" style="width: 0%"></div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="performance-metric">
-                                                        <div class="metric-header">
-                                                            <i class="fas fa-film"></i>
-                                                            <span data-score="0">Render</span>
-                                                        </div>
-                                                        <div class="progress">
-                                                            <div id="render-performance" class="progress-bar" role="progressbar" style="width: 0%"></div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="bottleneck-indicator">
-                                                        <div class="bottleneck-title"><i class="fas fa-balance-scale"></i> Cân bằng CPU/GPU</div>
-                                                        <div class="balance-labels">
-                                                            <span>CPU</span>
-                                                            <span>GPU</span>
-                                                        </div>
-                                                        <div class="bottleneck-bar">
-                                                            <div class="bottleneck-fill" id="bottleneck-indicator" style="left: 50%;"></div>
-                                                        </div>
-                                                        <div class="bottleneck-percentage" id="bottleneck-percentage">Đang phân tích...</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div id="game-performance-details" class="game-performance-details">
-                                                    <!-- Game performance details will be inserted here -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="chart-container">
-                                <h4 class="section-title"><i class="fas fa-chart-radar"></i> Phân tích hiệu năng tổng thể</h4>
-                                <canvas id="performance-chart"></canvas>
-                                <div class="performance-analysis">
-                                    <div class="analysis-header">
-                                        <h5><i class="fas fa-microscope"></i> Phân tích cấu hình</h5>
-                                    </div>
-                                    <div class="analysis-content">
-                                        <p class="chart-intro">
-                                            Biểu đồ radar trên thể hiện hiệu năng của cấu hình máy tính của bạn 
-                                            trong các tác vụ khác nhau. Các điểm gần trung tâm có hiệu suất thấp hơn, 
-                                            càng ra ngoài biên thể hiện hiệu suất càng cao.
-                                        </p>
-                                        <div class="strength-weakness">
-                                            <div class="strength">
-                                                <h6><i class="fas fa-thumbs-up"></i> Điểm mạnh</h6>
-                                                <div class="metric-highlights" id="strength-metrics">
-                                                    <!-- Strength metrics will be inserted here -->
-                                                </div>
-                                            </div>
-                                            <div class="weakness">
-                                                <h6><i class="fas fa-thumbs-down"></i> Điểm yếu</h6>
-                                                <div class="metric-highlights" id="weakness-metrics">
-                                                    <!-- Weakness metrics will be inserted here -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="recommendations">
-                                            <h6><i class="fas fa-lightbulb"></i> Khuyến nghị nâng cấp</h6>
-                                            <ul class="recommendation-list" id="upgrade-recommendations">
-                                                <!-- Recommendations will be inserted here -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

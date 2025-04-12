@@ -28,3 +28,44 @@ we need to remove the related JavaScript code as well. Here are the parts to rem
    - alternative-configs
 
 This will ensure all related JavaScript functionality is removed along with the HTML section. 
+
+====================================================
+
+// Additional Instructions for removing "Hiệu Năng Dự Kiến" (Expected Performance) section
+
+We also need to remove the "Hiệu Năng Dự Kiến" (Expected Performance) section from the HTML,
+along with all related JavaScript code. Here are the parts to remove:
+
+1. In the HTML file, remove the entire section with id="system-performance" (from line 477 to around line 580)
+   ```
+   <section id="system-performance" class="selection-section">
+       ...
+   </section>
+   ```
+
+2. Remove or comment out the following JavaScript functions in buildsan.js:
+   - updateAllPerformanceMetrics (around line 2114)
+   - updatePerformanceDisplay (around line 1410)
+   - updateProgressBar (around line 1441)
+   - calculateGamePerformance (around line 2071)
+   - calculateGraphicsPerformance (around line 2097)
+   - calculateOfficePerformance (around line 2106)
+   - updatePerformanceChart (around line 2654)
+   - initPerformanceChart (around line 2579)
+   - displayDetailedPerformance (around line 2236)
+
+3. Also remove or comment out any calls to these functions, especially:
+   - All instances of updateAllPerformanceMetrics() calls
+   - Any references to performance-chart, game-performance, graphic-performance, etc.
+
+4. Look for and remove/comment out JavaScript that initializes or references these elements:
+   - document.getElementById('performance-chart')
+   - document.getElementById('game-performance')
+   - document.getElementById('graphic-performance')
+   - document.getElementById('office-performance')
+   - document.getElementById('livestream-performance')
+   - document.getElementById('render-performance')
+   - document.getElementById('bottleneck-indicator')
+   - document.getElementById('bottleneck-percentage')
+
+This will ensure that all code related to the performance section is properly removed from the website. 
