@@ -3118,3 +3118,161 @@ header .phone-number i {
     color: #333;
     font-weight: 700;
 }
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    /* Cấu trúc chung và containers */
+    .main-container {
+        padding: 10px 5px;
+    }
+    
+    .container {
+        padding: 10px 5px;
+    }
+    
+    .page-title h1 {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+    
+    .page-title .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    /* Sections */
+    .selection-section {
+        padding: 15px 10px;
+        margin-bottom: 15px;
+    }
+    
+    .section-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    /* CPU Brand Selection */
+    .cpu-brand-selection {
+        flex-direction: row;
+        gap: 10px;
+    }
+    
+    .brand-option {
+        padding: 10px;
+        width: calc(50% - 5px);
+    }
+    
+    /* Game Cards */
+    .game-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .game-card {
+        margin-bottom: 10px;
+    }
+    
+    .game-image {
+        height: 80px !important;
+    }
+    
+    .game-name {
+        font-size: 0.8rem;
+        padding: 5px;
+    }
+    
+    /* Component Selection */
+    .components-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .component {
+        margin-bottom: 10px;
+    }
+    
+    .component-header h3 {
+        font-size: 1rem;
+    }
+    
+    /* Buttons */
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .action-button {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    
+    /* Modal */
+    .modal-content {
+        width: 95%;
+        padding: 10px;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    /* Footer */
+    footer {
+        padding: 15px 10px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .footer-contact, .footer-social {
+        text-align: center;
+    }
+    
+    /* Sliders */
+    .slider-container {
+        padding: 10px 5px;
+    }
+    
+    .slider-value-container {
+        font-size: 0.9rem;
+    }
+    
+    /* Tooltips */
+    .tooltip-content {
+        max-width: 250px;
+    }
+    
+    /* Table */
+    .config-table {
+        overflow-x: auto;
+    }
+    
+    .config-table table {
+        font-size: 0.9rem;
+    }
+}
+
+/* Safari iOS specific */
+@supports (-webkit-touch-callout: none) {
+    /* Fix for iOS safari bottom bar */
+    .fixed-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+        bottom: env(safe-area-inset-bottom);
+    }
+    
+    /* Prevent pull-to-refresh */
+    html, body {
+        overscroll-behavior-y: none;
+    }
+    
+    /* Fix for iOS form elements */
+    select, input, button {
+        font-size: 16px; /* Prevent zoom on focus */
+    }
+    
+    /* Fix for iOS tap highlight */
+    * {
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+}

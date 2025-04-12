@@ -1,0 +1,292 @@
+/* Mobile CSS Optimizations - Responsive styles for mobile devices */
+
+/* Base mobile styles for devices up to 768px */
+@media (max-width: 768px) {
+    /* Main container adjustments */
+    .main-container {
+        padding: 0.5rem;
+        width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .container {
+        padding: 0.5rem;
+        width: 100%;
+        margin: 0;
+    }
+
+    /* Header size reduction */
+    header, .header {
+        padding: 0.5rem;
+        height: auto;
+        min-height: 60px;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    header .logo {
+        max-width: 180px;
+        font-size: 16px;
+    }
+    
+    .header .header-title {
+        font-size: 1.2rem;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    header .contact-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+    
+    header .contact-buttons a,
+    header .phone-number,
+    .header-contact {
+        padding: 0.4rem 0.6rem;
+        font-size: 12px;
+        margin: 0.25rem;
+    }
+    
+    /* Typography adjustments */
+    .page-title h1,
+    .main-container .title {
+        font-size: 1.5rem;
+        line-height: 1.3;
+        margin-bottom: 0.5rem;
+        padding: 10px 0;
+    }
+    
+    .page-title .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    /* Selection sections */
+    .selection-section {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Grid layouts */
+    .selection-grid,
+    .components-grid,
+    .game-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    /* Brand selection */
+    .cpu-brand-selection {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .brand-option {
+        width: calc(50% - 0.5rem);
+        margin: 0.25rem;
+        padding: 0.5rem;
+    }
+    
+    /* Game cards */
+    .game-card {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .game-image {
+        height: 80px;
+    }
+    
+    .game-name {
+        font-size: 0.9rem;
+        padding: 0.25rem;
+    }
+    
+    /* Component cards */
+    .component-card {
+        padding: 0.5rem;
+        flex-direction: column;
+    }
+    
+    .component-image,
+    .component-card img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    /* Buttons */
+    .button-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .action-button,
+    .button {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        margin: 0.25rem 0;
+    }
+    
+    /* Budget settings */
+    .budget-input-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .budget-title,
+    .select-title {
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+
+    .budget-slider {
+        width: 100%;
+    }
+
+    /* CPU and dropdown selections */
+    .cpu-select-container,
+    .game-select-container {
+        margin: 10px 0;
+    }
+
+    .select-dropdown {
+        width: 100%;
+    }
+
+    /* Games list */
+    .games-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .game-list-card {
+        padding: 5px;
+    }
+
+    /* Results section */
+    .results-container {
+        padding: 10px;
+    }
+    
+    /* Modals */
+    .modal-content {
+        width: 95%;
+        max-height: 80vh;
+        padding: 0.75rem;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    /* Tables */
+    .config-table {
+        overflow-x: auto;
+    }
+    
+    .config-table table {
+        min-width: 600px;
+    }
+    
+    /* Performance charts */
+    .chart-container {
+        height: 200px;
+    }
+    
+    /* Footer */
+    footer {
+        padding: 1rem 0.5rem;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-contact, 
+    .footer-social {
+        margin-top: 1rem;
+    }
+}
+
+/* Small mobile devices (under 480px) */
+@media (max-width: 480px) {
+    .brand-option {
+        width: 100%;
+        margin: 0.25rem 0;
+    }
+    
+    .page-title h1,
+    .main-container .title {
+        font-size: 1.3rem;
+    }
+    
+    .action-button,
+    .button {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    /* Smaller games grid for very small screens */
+    .games-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Medium screens (tablets) */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .container {
+        padding: 15px;
+        max-width: 95%;
+    }
+    
+    .header-title {
+        font-size: 1.5rem;
+    }
+    
+    .component-card {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+/* Touch devices optimization */
+@media (pointer: coarse) {
+    button, 
+    .button,
+    select,
+    input[type="range"],
+    .brand-option,
+    .game-card {
+        min-height: 44px; /* Minimum touch target size */
+    }
+    
+    input, select, textarea {
+        font-size: 16px !important; /* Prevent zoom on input focus in iOS Safari */
+    }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+    /* Fix for bottom bar in Safari iOS */
+    .fixed-bottom {
+        padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+        position: sticky;
+    }
+    
+    /* Prevent pull-to-refresh behavior */
+    html, body {
+        overflow: hidden;
+        position: relative;
+        height: 100%;
+    }
+    
+    /* Remove tap highlight */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+} 
