@@ -1305,23 +1305,45 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Budget range change handler
-    budgetRange.addEventListener('input', function() {
-        updateBudgetDisplay();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the budget range element
+        const budgetRange = document.getElementById('budget-range');
+        
+        if (budgetRange) {
+            budgetRange.addEventListener('input', function() {
+                updateBudgetDisplay();
+            });
+            
+            budgetRange.addEventListener('change', function() {
+                console.log('Budget range changed, calling autoSelectConfig');
+                
+                try {
+                    autoSelectConfig();
+                } catch (e) {
+                    console.error('Error in autoSelectConfig:', e);
+                }
+                
+                // Ensure progression to the next step even if autoSelectConfig cannot complete
+                moveToNextStep();
+            });
+        } else {
+            console.error('Budget range element not found');
+        }
     });
 
-    budgetRange.addEventListener('change', function() {
-        console.log('Budget range changed, calling autoSelectConfig');
-        
-        try {
-            autoSelectConfig();
-        } catch (e) {
-            console.error('Error in autoSelectConfig:', e);
-        }
-        
-        // Ensure progression to the next step even if autoSelectConfig cannot complete
-        moveToNextStep();
-    });
-    
+    // Define the updateBudgetDisplay function if it doesn't exist
+    if (typeof updateBudgetDisplay !== 'function') {
+        window.updateBudgetDisplay = function() {
+            const budgetRange = document.getElementById('budget-range');
+            const budgetValue = document.getElementById('budget-value');
+            
+            if (budgetRange && budgetValue) {
+                const budgetInMillion = parseInt(budgetRange.value) / 1000000;
+                budgetValue.textContent = `${budgetInMillion} triệu`;
+            }
+        };
+    }
+
     /**
      * Move to the next step in the build process
      */
@@ -3374,3 +3396,101 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Manual auto-select button not found');
     }
 });
+
+// Make navigation functions globally accessible through the window object
+window.moveToNextStep = function() {
+    console.log('Moving to next step...');
+    
+    // Find current active step
+    const activeStep = document.querySelector('.progress-step.active');
+    if (!activeStep) {
+        console.error('No active step found');
+        return;
+    }
+    
+    const currentStepNumber = parseInt(activeStep.getAttribute('data-step'));
+    const nextStepNumber = currentStepNumber + 1;
+    
+    console.log(`Current step: ${currentStepNumber}, Next step: ${nextStepNumber}`);
+    
+    // Find next step element
+    const nextStep = document.querySelector(`.progress-step[data-step="${nextStepNumber}"]`);
+    if (!nextStep) {
+        console.error(`Next step ${nextStepNumber} not found`);
+        return;
+    }
+    
+    // Activate next step
+    document.querySelectorAll('.progress-step').forEach(step => {
+        step.classList.remove('active');
+    });
+    nextStep.classList.add('active');
+    
+    // Show corresponding section
+    const sections = [
+        document.getElementById('budget-range-selection'),
+        document.getElementById('cpu-type-selection'),
+        document.getElementById('game-selection'),
+        document.getElementById('component-selection')
+    ];
+    
+    // Ensure we have all sections
+    if (sections.some(section => !section)) {
+        console.error('One or more sections not found:', sections);
+    }
+    
+    // Hide all sections
+    sections.forEach(section => {
+        if (section) {
+            section.style.display = 'none';
+        }
+    });
+    
+    // Show next section
+    if (sections[nextStepNumber - 1]) {
+        sections[nextStepNumber - 1].style.display = 'block';
+        // Scroll to the section
+        sections[nextStepNumber - 1].scrollIntoView({behavior: 'smooth'});
+        console.log(`Showing section for step ${nextStepNumber}`);
+    } else {
+        console.error(`Section for step ${nextStepNumber} not found`);
+    }
+    
+    console.log(`Moved to step ${nextStepNumber}`);
+};
+
+window.goToStep = function(stepNumber) {
+    console.log(`Going to step ${stepNumber}`);
+    
+    if (stepNumber < 1 || stepNumber > 5) {
+        console.error(`Invalid step number: ${stepNumber}`);
+        return;
+    }
+    
+    // Activate the specified step
+    document.querySelectorAll('.progress-step').forEach(step => {
+        const stepNum = parseInt(step.getAttribute('data-step'));
+        step.classList.toggle('active', stepNum === stepNumber);
+    });
+    
+    // Show corresponding section
+    const sections = [
+        document.getElementById('budget-range-selection'),
+        document.getElementById('cpu-type-selection'),
+        document.getElementById('game-selection'),
+        document.getElementById('component-selection')
+    ];
+    
+    // Hide all sections
+    sections.forEach(section => {
+        if (section) section.style.display = 'none';
+    });
+    
+    // Show selected section (step numbers are 1-based, array is 0-based)
+    if (sections[stepNumber - 1]) {
+        sections[stepNumber - 1].style.display = 'block';
+        sections[stepNumber - 1].scrollIntoView({behavior: 'smooth'});
+    }
+    
+    console.log(`Moved to step ${stepNumber}`);
+};
