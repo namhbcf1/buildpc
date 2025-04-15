@@ -1219,7 +1219,49 @@ document.addEventListener('DOMContentLoaded', function () {
     
     document.getElementById('budget-range').addEventListener('change', function() {
         console.log("Budget range changed, calling autoSelectConfig");
-        autoSelectConfig();
+        
+        // Try to auto-select configuration if possible
+        try {
+            autoSelectConfig();
+        } catch (e) {
+            console.error("Error in autoSelectConfig:", e);
+        }
+        
+        // Move to the next step (CPU type selection) regardless of autoSelectConfig result
+        const currentStep = document.querySelector('.progress-step.active');
+        if (currentStep) {
+            const currentStepNumber = parseInt(currentStep.getAttribute('data-step') || '1');
+            const nextStepNumber = currentStepNumber + 1;
+            
+            // Find and activate the next step
+            const nextStep = document.querySelector(`.progress-step[data-step="${nextStepNumber}"]`);
+            if (nextStep) {
+                // Update active step
+                document.querySelectorAll('.progress-step').forEach(step => {
+                    step.classList.remove('active');
+                });
+                nextStep.classList.add('active');
+                
+                // Show relevant section and hide others
+                const sections = [
+                    document.getElementById('budget-range-selection'),
+                    document.getElementById('cpu-type-selection'),
+                    document.getElementById('game-selection'),
+                    document.getElementById('component-selection')
+                ];
+                
+                sections.forEach((section, index) => {
+                    if (section) section.style.display = index + 1 === nextStepNumber ? 'block' : 'none';
+                });
+                
+                // Scroll to the next section
+                if (sections[nextStepNumber - 1]) {
+                    sections[nextStepNumber - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+                
+                console.log(`Moved to step ${nextStepNumber} (CPU type selection)`);
+            }
+        }
     });
     
     document.getElementById('cpu-type').addEventListener('change', function() {
@@ -1261,6 +1303,128 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!isAutoSelecting) calculateTotalPriceAndSummary();
         });
     });
+
+    // Budget range change handler
+    budgetRange.addEventListener('input', function() {
+        updateBudgetDisplay();
+    });
+
+    budgetRange.addEventListener('change', function() {
+        console.log('Budget range changed, calling autoSelectConfig');
+        
+        try {
+            autoSelectConfig();
+        } catch (e) {
+            console.error('Error in autoSelectConfig:', e);
+        }
+        
+        // Ensure progression to the next step even if autoSelectConfig cannot complete
+        moveToNextStep();
+    });
+    
+    /**
+     * Move to the next step in the build process
+     */
+    function moveToNextStep() {
+        console.log('Moving to next step...');
+        
+        // Find current active step
+        const activeStep = document.querySelector('.progress-step.active');
+        if (!activeStep) {
+            console.error('No active step found');
+            return;
+        }
+        
+        const currentStepNumber = parseInt(activeStep.getAttribute('data-step'));
+        const nextStepNumber = currentStepNumber + 1;
+        
+        console.log(`Current step: ${currentStepNumber}, Next step: ${nextStepNumber}`);
+        
+        // Find next step element
+        const nextStep = document.querySelector(`.progress-step[data-step="${nextStepNumber}"]`);
+        if (!nextStep) {
+            console.error(`Next step ${nextStepNumber} not found`);
+            return;
+        }
+        
+        // Activate next step
+        document.querySelectorAll('.progress-step').forEach(step => {
+            step.classList.remove('active');
+        });
+        nextStep.classList.add('active');
+        
+        // Show corresponding section
+        const sections = [
+            document.getElementById('budget-range-selection'),
+            document.getElementById('cpu-type-selection'),
+            document.getElementById('game-selection'),
+            document.getElementById('component-selection')
+        ];
+        
+        // Ensure we have all sections
+        if (sections.some(section => !section)) {
+            console.error('One or more sections not found:', sections);
+        }
+        
+        // Hide all sections
+        sections.forEach(section => {
+            if (section) {
+                section.style.display = 'none';
+            }
+        });
+        
+        // Show next section
+        if (sections[nextStepNumber - 1]) {
+            sections[nextStepNumber - 1].style.display = 'block';
+            // Scroll to the section
+            sections[nextStepNumber - 1].scrollIntoView({behavior: 'smooth'});
+            console.log(`Showing section for step ${nextStepNumber}`);
+        } else {
+            console.error(`Section for step ${nextStepNumber} not found`);
+        }
+        
+        console.log(`Moved to step ${nextStepNumber}`);
+    }
+
+    /**
+     * Go to a specific step in the build process
+     * @param {number} stepNumber - The step number to go to (1-based)
+     */
+    function goToStep(stepNumber) {
+        console.log(`Going to step ${stepNumber}`);
+        
+        if (stepNumber < 1 || stepNumber > 5) {
+            console.error(`Invalid step number: ${stepNumber}`);
+            return;
+        }
+        
+        // Activate the specified step
+        document.querySelectorAll('.progress-step').forEach(step => {
+            const stepNum = parseInt(step.getAttribute('data-step'));
+            step.classList.toggle('active', stepNum === stepNumber);
+        });
+        
+        // Show corresponding section
+        const sections = [
+            document.getElementById('budget-range-selection'),
+            document.getElementById('cpu-type-selection'),
+            document.getElementById('game-selection'),
+            document.getElementById('component-selection')
+        ];
+        
+        // Hide all sections
+        sections.forEach(section => {
+            if (section) section.style.display = 'none';
+        });
+        
+        // Show selected section (step numbers are 1-based, array is 0-based)
+        if (sections[stepNumber - 1]) {
+            sections[stepNumber - 1].style.display = 'block';
+            sections[stepNumber - 1].scrollIntoView({behavior: 'smooth'});
+        }
+        
+        console.log(`Moved to step ${stepNumber}`);
+    }
 });
 
 // Thêm hàm updateDropdown
@@ -3032,3 +3196,181 @@ function getStabilityColor(stability) {
     if (stability >= 50) return "#f0ad4e";  // Tương đối ổn định - Yellow
     return "#dc3545";                      // Không ổn định - Red
 }
+
+// Initialize the step sections
+document.addEventListener('DOMContentLoaded', function() {
+    // Hide all sections except the first one (budget-range-selection)
+    const sections = [
+        document.getElementById('budget-range-selection'),
+        document.getElementById('cpu-type-selection'),
+        document.getElementById('game-selection'),
+        document.getElementById('component-selection')
+    ];
+    
+    // Hide all sections except the first one
+    sections.forEach((section, index) => {
+        if (section) {
+            section.style.display = index === 0 ? 'block' : 'none';
+        }
+    });
+    
+    // Set the first step as active
+    const steps = document.querySelectorAll('.progress-step');
+    steps.forEach((step, index) => {
+        step.classList.toggle('active', index === 0);
+        
+        // Add click event listener to each step
+        step.addEventListener('click', function() {
+            const stepNumber = parseInt(this.getAttribute('data-step'));
+            goToStep(stepNumber);
+        });
+    });
+    
+    console.log('Steps initialized. First step (Budget) is visible, others are hidden.');
+    
+    // Make the step icons clickable for navigation
+    console.log('Adding click listeners to progress steps for direct navigation');
+    
+    // ... existing code ...
+});
+
+// Add event listeners for the CPU brand options to navigate to the game selection step
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the CPU brand option elements
+    const intelOption = document.getElementById('intel-option');
+    const amdOption = document.getElementById('amd-option');
+    const cpuTypeDropdown = document.getElementById('cpu-type');
+    
+    if (intelOption && amdOption && cpuTypeDropdown) {
+        // Add click event listeners to the CPU brand options
+        intelOption.addEventListener('click', function() {
+            // Set the Intel option as selected
+            intelOption.classList.add('selected');
+            amdOption.classList.remove('selected');
+            
+            // Update the hidden dropdown value
+            cpuTypeDropdown.value = 'Intel';
+            
+            // Trigger the change event
+            cpuTypeDropdown.dispatchEvent(new Event('change'));
+            
+            // Move to the next step (Game selection)
+            setTimeout(() => {
+                moveToNextStep();
+            }, 300); // Small delay to allow the UI to update
+        });
+        
+        amdOption.addEventListener('click', function() {
+            // Set the AMD option as selected
+            amdOption.classList.add('selected');
+            intelOption.classList.remove('selected');
+            
+            // Update the hidden dropdown value
+            cpuTypeDropdown.value = 'Amd';
+            
+            // Trigger the change event
+            cpuTypeDropdown.dispatchEvent(new Event('change'));
+            
+            // Move to the next step (Game selection)
+            setTimeout(() => {
+                moveToNextStep();
+            }, 300); // Small delay to allow the UI to update
+        });
+        
+        console.log('CPU brand selection event listeners added');
+    } else {
+        console.error('One or more CPU brand elements not found:',
+            intelOption ? '✓' : '✗ intelOption',
+            amdOption ? '✓' : '✗ amdOption',
+            cpuTypeDropdown ? '✓' : '✗ cpuTypeDropdown'
+        );
+    }
+});
+
+// Add event listeners for the game cards to navigate to the component selection step
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all game card elements
+    const gameCards = document.querySelectorAll('.game-card');
+    const gameGenreDropdown = document.getElementById('game-genre');
+    
+    if (gameCards.length > 0 && gameGenreDropdown) {
+        // Add click event listeners to all game cards
+        gameCards.forEach(gameCard => {
+            gameCard.addEventListener('click', function() {
+                // Get the game ID from the data attribute
+                const gameId = this.getAttribute('data-game');
+                
+                if (gameId) {
+                    // Remove selected class from all game cards
+                    gameCards.forEach(card => card.classList.remove('selected'));
+                    
+                    // Add selected class to the clicked card
+                    this.classList.add('selected');
+                    
+                    // Update the hidden dropdown value
+                    gameGenreDropdown.value = gameId;
+                    
+                    // Trigger the change event
+                    gameGenreDropdown.dispatchEvent(new Event('change'));
+                    
+                    // Call autoSelectConfig to try to select components
+                    if (typeof autoSelectConfig === 'function') {
+                        try {
+                            autoSelectConfig();
+                        } catch (e) {
+                            console.error('Error in autoSelectConfig:', e);
+                        }
+                    }
+                    
+                    // Move to the next step (Component selection)
+                    setTimeout(() => {
+                        moveToNextStep();
+                    }, 500); // Small delay to allow the UI to update
+                }
+            });
+        });
+        
+        console.log('Game card selection event listeners added for', gameCards.length, 'game cards');
+    } else {
+        console.error('Game cards or game genre dropdown not found:',
+            gameCards.length > 0 ? `✓ ${gameCards.length} game cards` : '✗ No game cards',
+            gameGenreDropdown ? '✓' : '✗ gameGenreDropdown'
+        );
+    }
+});
+
+// Add event listener for the manual auto-select button
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the manual auto-select button
+    const manualAutoSelectButton = document.getElementById('manual-auto-select');
+    
+    if (manualAutoSelectButton) {
+        // Add click event listener to the button
+        manualAutoSelectButton.addEventListener('click', function() {
+            console.log('Manual auto-select button clicked');
+            
+            // Call autoSelectConfig to try to select components
+            if (typeof autoSelectConfig === 'function') {
+                try {
+                    autoSelectConfig();
+                    console.log('Auto-select completed successfully');
+                    
+                    // Move to the next step (Component selection)
+                    setTimeout(() => {
+                        moveToNextStep();
+                    }, 500); // Small delay to allow the UI to update
+                } catch (e) {
+                    console.error('Error in autoSelectConfig:', e);
+                    alert('Có lỗi khi tự động chọn cấu hình. Vui lòng thử lại sau!');
+                }
+            } else {
+                console.error('autoSelectConfig function not found');
+                alert('Chức năng tự động chọn cấu hình không khả dụng. Vui lòng thử lại sau!');
+            }
+        });
+        
+        console.log('Manual auto-select button event listener added');
+    } else {
+        console.error('Manual auto-select button not found');
+    }
+});
