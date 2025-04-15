@@ -1,5 +1,76 @@
 /* Mobile CSS Optimizations - Responsive styles for mobile devices */
 
+/* Configuration Selector Styles */
+.config-selector {
+    margin-bottom: 25px;
+    background-color: #f9fbff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e1e8f0;
+}
+
+.config-selector-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.config-selector-header i {
+    color: #2c74dc;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.config-selector-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2f3b4d;
+    margin: 0;
+}
+
+.config-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.config-option {
+    flex: 1;
+    min-width: 150px;
+    background-color: white;
+    border: 1px solid #e1e8f0;
+    border-radius: 6px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.config-option:hover {
+    background-color: #f0f7ff;
+    border-color: #b9d5f7;
+    transform: translateY(-2px);
+}
+
+.config-option.active {
+    background-color: #2c74dc;
+    border-color: #2c74dc;
+    color: white;
+    box-shadow: 0 3px 8px rgba(44, 116, 220, 0.25);
+}
+
+.config-option i {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.config-option span {
+    font-weight: 500;
+    font-size: 14px;
+}
+
 /* Base styles for all devices - applying horizontal header layout regardless of screen size */
 header, .header {
     padding: 0.5rem;
@@ -15,6 +86,7 @@ header, .header {
     right: 0;
     z-index: 1000;
     width: 100%;
+    background-color: rgba(0, 63, 136, 0.9); /* Ensuring background is visible */
 }
 
 header .logo {
@@ -24,35 +96,44 @@ header .logo {
     margin-right: 8px;
 }
 
-header .contact-buttons {
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 0;
-    width: auto;
-    max-width: none;
-    gap: 10px;
+/* Strong selector to override any existing styles for the contact buttons container */
+header .contact-buttons,
+.header .contact-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 420px !important;
+    gap: 10px !important;
+    margin: 0 auto !important;
 }
 
+/* Ensure each button takes equal width and displays properly */
 header .contact-buttons a,
 header .phone-number,
-.header-contact {
-    padding: 0.4rem 0.8rem;
-    font-size: 14px;
-    margin: 0;
-    width: auto;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 6px;
+.header-contact,
+header .contact-buttons a:nth-child(1),
+header .contact-buttons a:nth-child(3) {
+    flex: 1 !important;
+    width: 33.33% !important;
+    max-width: 130px !important;
+    padding: 0.5rem 0.5rem !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    text-align: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    border-radius: 6px !important;
+    white-space: nowrap !important;
 }
 
 header .contact-buttons a i,
 header .phone-number i {
-    margin-right: 5px;
-    font-size: 16px;
+    margin-right: 5px !important;
+    font-size: 16px !important;
 }
 
 /* Base mobile styles for devices up to 768px */
@@ -88,21 +169,60 @@ header .phone-number i {
         margin-bottom: 0;
     }
 
-    header .contact-buttons {
-        gap: 6px;
+    /* Contact buttons in horizontal layout with balanced spacing */
+    header .contact-buttons,
+    .header .contact-buttons {
+        gap: 5px !important;
+        max-width: 360px !important;
     }
     
     header .contact-buttons a,
     header .phone-number,
-    .header-contact {
-        padding: 0.4rem 0.5rem;
-        font-size: 12px;
+    .header-contact,
+    header .contact-buttons a:nth-child(1),
+    header .contact-buttons a:nth-child(3) {
+        padding: 0.4rem 0.3rem !important;
+        font-size: 13px !important;
+        max-width: 110px !important;
     }
     
     header .contact-buttons a i,
     header .phone-number i {
-        margin-right: 5px;
+        margin-right: 4px !important;
+        font-size: 14px !important;
+    }
+    
+    /* Config selector for mobile */
+    .config-selector {
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+    
+    .config-selector-header h3 {
         font-size: 14px;
+    }
+    
+    .config-options {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+    
+    .config-option {
+        min-width: 130px;
+        flex: 0 0 auto;
+        padding: 10px;
+        scroll-snap-align: start;
+    }
+    
+    .config-option i {
+        font-size: 16px;
+    }
+    
+    .config-option span {
+        font-size: 12px;
     }
     
     /* Typography adjustments */
@@ -289,34 +409,71 @@ header .phone-number i {
         font-size: 14px;
     }
     
-    header .contact-buttons {
-        gap: 4px;
+    /* Ensure contact buttons remain horizontal with suitable size */
+    header .contact-buttons,
+    .header .contact-buttons {
+        gap: 4px !important;
+        max-width: 300px !important;
     }
     
     header .contact-buttons a,
     header .phone-number,
-    .header-contact {
-        padding: 0.3rem 0.4rem;
-        font-size: 10px;
+    .header-contact,
+    header .contact-buttons a:nth-child(1),
+    header .contact-buttons a:nth-child(3) {
+        padding: 0.3rem 0.2rem !important;
+        font-size: 11px !important;
+        max-width: 90px !important;
     }
     
     header .contact-buttons a i,
     header .phone-number i {
-        font-size: 12px;
-        margin-right: 3px;
+        font-size: 12px !important;
+        margin-right: 3px !important;
+    }
+    
+    /* Configuration selector for smaller screens */
+    .config-selector {
+        padding: 8px;
+        margin-bottom: 12px;
+    }
+    
+    .config-selector-header {
+        margin-bottom: 8px;
+    }
+    
+    .config-selector-header i {
+        font-size: 16px;
+    }
+    
+    .config-selector-header h3 {
+        font-size: 13px;
+    }
+    
+    .config-option {
+        min-width: 110px;
+        padding: 8px;
+    }
+    
+    .config-option i {
+        font-size: 14px;
+        margin-right: 6px;
+    }
+    
+    .config-option span {
+        font-size: 11px;
     }
     
     /* Add abbreviations for contact button text */
     header .contact-buttons a span,
     header .phone-number span {
-        display: none; /* Hide longer text on smaller screens */
+        display: inline !important; /* Ensure text is visible */
     }
     
     /* Just show shorter text or icons */
     header .contact-buttons a::after,
     header .phone-number::after {
-        display: inline;
-        font-size: 10px;
+        display: none !important; /* Don't show after content */
     }
     
     header .contact-buttons a:nth-child(1)::after {
@@ -353,7 +510,7 @@ header .phone-number i {
     }
 }
 
-/* Very small mobile devices (under 380px) - minimal header */
+/* Very small mobile devices (under 380px) - minimal header but still horizontal */
 @media (max-width: 380px) {
     .main-container {
         margin-top: 60px; /* Even less margin for smaller header */
@@ -381,29 +538,27 @@ header .phone-number i {
         font-size: 14px;
     }
     
-    header .contact-buttons {
-        gap: 3px;
-        margin-left: auto;
+    /* Ensure contact buttons remain horizontal with minimum size */
+    header .contact-buttons,
+    .header .contact-buttons {
+        gap: 3px !important;
+        max-width: 250px !important;
     }
     
     header .contact-buttons a,
     header .phone-number,
-    .header-contact {
-        padding: 0.25rem 0.3rem;
-        font-size: 0; /* Hide text completely */
-        max-width: 28px; /* Make buttons smaller */
+    .header-contact,
+    header .contact-buttons a:nth-child(1),
+    header .contact-buttons a:nth-child(3) {
+        padding: 0.25rem 0.2rem !important;
+        font-size: 10px !important;
+        max-width: 75px !important;
     }
     
     header .contact-buttons a i,
     header .phone-number i {
-        font-size: 12px;
-        margin-right: 0;
-    }
-    
-    /* Remove all text, just show icons */
-    header .contact-buttons a::after,
-    header .phone-number::after {
-        content: "";
+        font-size: 11px !important;
+        margin-right: 2px !important;
     }
 }
 
@@ -422,6 +577,20 @@ header .phone-number i {
         flex-direction: row;
         align-items: center;
     }
+    
+    /* Ensure contact buttons display properly on tablets */
+    header .contact-buttons,
+    .header .contact-buttons {
+        max-width: 400px !important;
+    }
+    
+    header .contact-buttons a,
+    header .phone-number,
+    .header-contact,
+    header .contact-buttons a:nth-child(1),
+    header .contact-buttons a:nth-child(3) {
+        max-width: 120px !important;
+    }
 }
 
 /* Make sure the header has good spacing for desktop views */
@@ -434,14 +603,20 @@ header .phone-number i {
         max-width: 180px;
     }
     
-    header .contact-buttons {
-        gap: 12px;
+    /* Ensure contact buttons display properly on desktop */
+    header .contact-buttons,
+    .header .contact-buttons {
+        gap: 12px !important;
+        max-width: 450px !important;
     }
     
     header .contact-buttons a,
     header .phone-number,
-    .header-contact {
-        padding: 0.5rem 1rem;
+    .header-contact,
+    header .contact-buttons a:nth-child(1),
+    header .contact-buttons a:nth-child(3) {
+        padding: 0.5rem 0.7rem !important;
+        max-width: 140px !important;
     }
 }
 
