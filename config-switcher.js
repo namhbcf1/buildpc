@@ -174,6 +174,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('Applying configuration:', Object.keys(config).join(', '));
         
+        // Make sure the components grid is visible
+        const componentsGrid = document.querySelector('.components-grid');
+        if (componentsGrid) {
+            componentsGrid.style.display = 'grid';
+        }
+        
+        // Make sure all component containers are visible
+        document.querySelectorAll('.component').forEach(component => {
+            component.style.display = 'block';
+        });
+        
         // Track successful changes for logging
         let changedComponents = 0;
         let attemptedComponents = 0;
@@ -187,6 +198,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // If dropdown exists 
                 if (dropdown) {
+                    // Make sure the dropdown is enabled
+                    dropdown.disabled = false;
+                    
                     // First check if the value exists in the dropdown
                     let optionExists = false;
                     
@@ -309,8 +323,27 @@ document.addEventListener('DOMContentLoaded', function() {
         // Find custom option and activate it
         const customOption = document.querySelector('.config-option[data-config="custom"]');
         if (customOption) {
+            // Remove active class from all options and add to custom
             configOptions.forEach(opt => opt.classList.remove('active'));
             customOption.classList.add('active');
+            
+            // Make sure the components grid is visible
+            const componentsGrid = document.querySelector('.components-grid');
+            if (componentsGrid) {
+                componentsGrid.style.display = 'grid';
+            }
+            
+            // Make sure all component dropdowns are visible and enabled
+            document.querySelectorAll('.component').forEach(component => {
+                component.style.display = 'block';
+            });
+            
+            // Enable all dropdowns
+            document.querySelectorAll('.component select').forEach(dropdown => {
+                dropdown.disabled = false;
+            });
+            
+            console.log('Tùy Chỉnh mode activated - all components should be visible');
         }
     }
 
@@ -356,4 +389,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Call on page load and window resize
     adjustLayoutForMobile();
     window.addEventListener('resize', adjustLayoutForMobile);
+    
+    // Ensure components are visible when the page loads with the "Tùy Chỉnh" (custom) option selected
+    const customOption = document.querySelector('.config-option[data-config="custom"]');
+    if (customOption && customOption.classList.contains('active')) {
+        console.log('Custom option is active on page load - ensuring components are visible');
+        setTimeout(() => {
+            highlightCustomOption(); // Call this to ensure components are visible
+        }, 300);
+    }
 }); 
