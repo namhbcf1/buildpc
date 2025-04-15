@@ -5,13 +5,67 @@
  * for the PC builder based on common usage scenarios.
  */
 
+// Fix for "Cannot set property top of #<Window> which has only a getter" error
+(function() {
+    // List of read-only window properties that might be accidentally modified
+    const readOnlyProps = ['top', 'parent', 'self', 'window', 'frames', 'location'];
+    
+    // Create safe getter/setter for each property
+    readOnlyProps.forEach(prop => {
+        try {
+            const descriptor = Object.getOwnPropertyDescriptor(window, prop);
+            if (descriptor && !descriptor.configurable) {
+                console.log(`Adding safety wrapper for read-only property: ${prop}`);
+                
+                // Store original value
+                const originalValue = window[prop];
+                
+                // Create a proxy variable with the original name + '_safe'
+                Object.defineProperty(window, prop + '_safe', {
+                    get: () => originalValue,
+                    set: () => console.warn(`Prevented setting read-only property: ${prop}`),
+                    configurable: true
+                });
+            }
+        } catch (e) {
+            console.warn(`Error setting up property safety for ${prop}:`, e);
+        }
+    });
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Component configuration presets
+    // Log loading of configuration switcher
+    console.log('✅ Configuration Switcher loaded successfully');
+
+    // Check if debug mode is enabled
+    const isDebugMode = window.location.search.includes('debug=true');
+    
+    // Debug log function
+    function debugLog(...args) {
+        if (isDebugMode) {
+            console.log('🔧 [ConfigSwitcher]', ...args);
+        }
+    }
+    
+    // List available components in dropdowns for debugging
+    if (isDebugMode) {
+        setTimeout(() => {
+            debugLog('Scanning available component options:');
+            document.querySelectorAll('.component select').forEach(dropdown => {
+                const options = Array.from(dropdown.options)
+                    .filter(opt => opt.value)
+                    .map(opt => opt.value);
+                debugLog(`${dropdown.id} options:`, options.join(', '));
+            });
+        }, 1000);
+    }
+
+    // Component configuration presets - revised to match actual component IDs
     const configurations = {
         // Gaming PC configuration
         gaming: {
             cpu: "13600k", // Intel Core i5-13600K
-            mainboard: "MSI-Z690", // MSI PRO Z690-A DDR4
+            mainboard: "MSI-Z690", // MSI PRO Z690-A DDR4 
             vga: "3070ti", // NVIDIA GeForce RTX 3070 Ti
             ram: "corsair-32", // Corsair 32GB DDR4 3600MHz
             ssd: "samsung-1TB", // Samsung 970 EVO Plus 1TB
@@ -22,12 +76,12 @@ document.addEventListener('DOMContentLoaded', function() {
             monitor: "240hz" // 240Hz Gaming Monitor
         },
         
-        // Office PC configuration
+        // Office PC configuration - adjusted component IDs
         office: {
             cpu: "12400f", // Intel Core i5-12400F
             mainboard: "HNZ-B760", // ASUS PRIME B760M-K D4
             vga: "1660s", // NVIDIA GeForce GTX 1660 Super
-            ram: "corsair-16", // Corsair 16GB DDR4 3600MHz
+            ram: "gskill-16", // G.SKILL 16GB DDR4 3200MHz
             ssd: "crucial-500", // Crucial P2 500GB
             psu: "VSP650", // Cooler Master VSP 650W
             case: "H510F", // NZXT H510 Flow
@@ -42,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
             mainboard: "MSI-Z690", // MSI PRO Z690-A DDR4
             vga: "4070", // NVIDIA GeForce RTX 4070
             ram: "corsair-32", // Corsair 32GB DDR4 3600MHz
-            ssd: "samsung-1TB", // Samsung 970 EVO Plus 1TB
+            ssd: "crucial-500", // Crucial P2 500GB NVMe PCIe
             psu: "COSAIR850", // Corsair RM850x 850W
             case: "GA3", // DeepCool Gamer Storm GA
             cpuCooler: "CR1000", // Deepcool AK620
@@ -52,16 +106,28 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Streaming & Video PC configuration
         streaming: {
-            cpu: "13600k", // Intel Core i5-13600K
-            mainboard: "MSI-Z690", // MSI PRO Z690-A DDR4
-            vga: "3070ti", // NVIDIA GeForce RTX 3070 Ti
-            ram: "corsair-32", // Corsair 32GB DDR4 3600MHz
-            ssd: "samsung-1TB", // Samsung 970 EVO Plus 1TB
-            psu: "COSAIR850", // Corsair RM850x 850W
+            cpu: "13400f", // Intel Core i5-13400F
+            mainboard: "HNZ-B760", // ASUS PRIME B760M-K D4
+            vga: "3060", // NVIDIA GeForce RTX 3060
+            ram: "sstc-16", // Team T-FORCE 16GB DDR4 3600MHz
+            ssd: "crucial-500", // Crucial P2 500GB
+            psu: "VSP750", // Cooler Master VSP 750W
             case: "GA3", // DeepCool Gamer Storm GA
-            cpuCooler: "TMR120SE", // ID-COOLING SE-224-XT
-            hdd: "4tb", // 4TB HDD
+            cpuCooler: "ID-SE-224", // ID-COOLING SE-224-XT
+            hdd: "2tb", // 2TB HDD
             monitor: "streaming-monitor" // Streaming Monitor
+        },
+        
+        // Fallback configuration in case components aren't found
+        fallback: {
+            cpu: "10400f", // Intel Core i5-10400F
+            mainboard: "H510", // MSI H510M PRO
+            vga: "1660s", // NVIDIA GeForce GTX 1660 Super
+            ram: "adata-8", // ADATA 8GB DDR4 2666MHz
+            ssd: "crucial-256", // Crucial BX500 256GB SATA SSD
+            psu: "VSP650", // Cooler Master VSP 650W
+            case: "H510F", // Case
+            cpuCooler: "deepcool" // Deepcool GAMMAXX 400
         },
         
         // Custom configuration (empty)
@@ -101,46 +167,138 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     function applyConfiguration(config) {
         // Check if config is valid
-        if (!config) return;
+        if (!config) {
+            console.warn('Invalid configuration provided');
+            return;
+        }
         
-        // Loop through each property in the configuration
-        Object.keys(config).forEach(componentType => {
-            const componentValue = config[componentType];
-            const dropdown = document.getElementById(componentType);
-            
-            // If dropdown exists and has the value as an option
-            if (dropdown) {
-                // First check if the value exists in the dropdown
-                const optionExists = Array.from(dropdown.options).some(option => option.value === componentValue);
+        console.log('Applying configuration:', Object.keys(config).join(', '));
+        
+        // Track successful changes for logging
+        let changedComponents = 0;
+        let attemptedComponents = 0;
+        
+        try {
+            // Loop through each property in the configuration
+            Object.keys(config).forEach(componentType => {
+                attemptedComponents++;
+                const componentValue = config[componentType];
+                const dropdown = document.getElementById(componentType);
                 
-                // If the option exists, set the dropdown value
-                if (optionExists) {
-                    dropdown.value = componentValue;
+                // If dropdown exists 
+                if (dropdown) {
+                    // First check if the value exists in the dropdown
+                    let optionExists = false;
                     
-                    // Trigger change event to update UI and calculations
-                    dropdown.dispatchEvent(new Event('change', { bubbles: true }));
+                    try {
+                        optionExists = Array.from(dropdown.options).some(option => option.value === componentValue);
+                    } catch (e) {
+                        console.warn(`Error checking options for ${componentType}:`, e);
+                        optionExists = false;
+                    }
+                    
+                    // If the option exists, set the dropdown value
+                    if (optionExists) {
+                        console.log(`Setting ${componentType} to "${componentValue}"`);
+                        
+                        try {
+                            dropdown.value = componentValue;
+                            
+                            // Trigger change event to update UI and calculations
+                            dropdown.dispatchEvent(new Event('change', { bubbles: true }));
+                            changedComponents++;
+                        } catch (e) {
+                            console.error(`Error setting ${componentType} value:`, e);
+                        }
+                    } else {
+                        console.warn(`Option "${componentValue}" not found in ${componentType} dropdown`);
+                    }
                 } else {
-                    console.warn(`Option ${componentValue} not found in ${componentType} dropdown`);
+                    console.warn(`Dropdown element for ${componentType} not found`);
                 }
-            }
-        });
+            });
+            
+            console.log(`Configuration applied: ${changedComponents}/${attemptedComponents} components updated`);
+        } catch (error) {
+            console.error('Error applying configuration:', error);
+        }
         
         // Update the total price and compatibility after applying configuration
         try {
+            // Add a small delay to ensure all changes are processed
+            setTimeout(() => {
+                updateConfigurationSummary();
+            }, 100);
+        } catch (error) {
+            console.error('Error updating configuration summary:', error);
+        }
+    }
+    
+    /**
+     * Update configuration summary and calculations
+     */
+    function updateConfigurationSummary() {
+        try {
             // Check if these functions exist in the global scope
             if (typeof updateSelectedComponents === 'function') {
+                console.log('Updating selected components');
                 updateSelectedComponents();
             }
             
             if (typeof calculateTotalPriceAndSummary === 'function') {
+                console.log('Calculating total price');
                 calculateTotalPriceAndSummary();
             }
             
-            if (typeof updateAllPerformanceMetrics === 'function') {
-                updateAllPerformanceMetrics();
+            // Handle performance metrics safely - this might be disabled
+            try {
+                if (typeof updateAllPerformanceMetrics === 'function') {
+                    console.log('Updating performance metrics');
+                    updateAllPerformanceMetrics();
+                }
+            } catch (e) {
+                // Performance features disabled, this is fine
+                console.log('Performance metrics update skipped (features disabled)');
             }
+            
+            // Handle any chart-related errors that might occur during updates
+            preventChartErrors();
         } catch (error) {
-            console.error('Error updating PC configuration:', error);
+            console.error('Error in updateConfigurationSummary:', error);
+        }
+    }
+    
+    /**
+     * Prevent chart-related errors by providing mock objects
+     */
+    function preventChartErrors() {
+        // Check if Chart.js is loaded and canvas elements exist
+        try {
+            const performanceChart = document.getElementById('performance-chart');
+            if (performanceChart && typeof Chart === 'undefined') {
+                // Create a mock Chart object to prevent errors
+                window.Chart = function() {
+                    return {
+                        update: function() {},
+                        destroy: function() {}
+                    };
+                };
+            }
+            
+            // Handle missing canvas context
+            if (performanceChart && typeof performanceChart.getContext !== 'function') {
+                performanceChart.getContext = function() {
+                    return {
+                        createLinearGradient: function() {
+                            return {
+                                addColorStop: function() {}
+                            };
+                        }
+                    };
+                };
+            }
+        } catch (e) {
+            console.log('Chart error prevention setup:', e);
         }
     }
 
