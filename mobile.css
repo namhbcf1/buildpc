@@ -684,19 +684,7 @@ header .phone-number i {
 
 /* Header Auto-Hide Functionality - Improved with !important to override other styles */
 .header-trigger-area {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 20px !important;
-    z-index: 999 !important;
-    display: none !important;
-    background: transparent !important;
-}
-
-/* Show trigger area only when header is hidden */
-body.header-is-hidden .header-trigger-area {
-    display: block !important;
+    display: none !important; /* Hide completely */
 }
 
 /* Apply transition to header for smooth hiding/showing */
@@ -738,17 +726,40 @@ body .header.header-hidden {
     opacity: 1 !important;
 }
 
-/* Force header to be visible when at the top of the page */
-body.at-page-top header,
-body.at-page-top .header {
-    transform: translateY(0) !important;
-    opacity: 1 !important;
-}
-
 /* Adjust styles for mobile */
 @media (max-width: 768px) {
     .header-tab {
         font-size: 12px;
         padding: 5px 10px;
+        width: 120px !important;
+        text-align: center !important;
+    }
+    
+    /* Increase margin top for main container to compensate for the fixed header tab */
+    .main-container {
+        margin-top: 60px !important; 
+    }
+}
+
+/* Custom mode dropdown highlight */
+.custom-mode-dropdown {
+    border: 2px solid #2c74dc !important;
+    box-shadow: 0 0 8px rgba(44, 116, 220, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.custom-mode-dropdown:hover,
+.custom-mode-dropdown:focus {
+    border-color: #1976d2 !important;
+    box-shadow: 0 0 12px rgba(44, 116, 220, 0.5) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Đảm bảo dropdown có đủ kích thước để dễ nhấp vào trên thiết bị di động */
+@media (max-width: 768px) {
+    .custom-mode-dropdown {
+        height: 40px !important;
+        font-size: 14px !important;
+        padding: 8px 12px !important;
     }
 } 

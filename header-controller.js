@@ -1,8 +1,7 @@
 /**
  * Header Controller - Quản lý chức năng ẩn/hiện header
  * 
- * Script này sẽ tự động ẩn header sau 5 giây không hoạt động
- * và hiển thị lại khi người dùng tương tác với trang.
+ * Script này sẽ tự động ẩn header và chỉ hiển thị lại khi người dùng nhấp vào nút "Hiển thị Menu"
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -11,16 +10,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Các phần tử DOM
     const header = document.querySelector('header') || document.querySelector('.header');
     const body = document.body;
-    let headerTimer;
     
     // Tạo các phần tử UI cần thiết
     function createHeaderElements() {
         console.log('Creating header control elements');
-        
-        // Tạo vùng kích hoạt ở trên cùng của trang
-        const triggerArea = document.createElement('div');
-        triggerArea.className = 'header-trigger-area';
-        document.body.appendChild(triggerArea);
         
         // Tạo tab hiển thị khi header bị ẩn
         const headerTab = document.createElement('div');
@@ -28,15 +21,14 @@ document.addEventListener('DOMContentLoaded', function() {
         headerTab.textContent = 'Hiển thị Menu';
         document.body.appendChild(headerTab);
         
-        // Gán sự kiện cho các phần tử
-        triggerArea.addEventListener('mouseenter', showHeader);
-        headerTab.addEventListener('click', showHeader);
+        // Gán sự kiện cho nút hiển thị menu
+        headerTab.addEventListener('click', toggleHeader);
         
-        return { triggerArea, headerTab };
+        return { headerTab };
     }
     
     // Các phần tử UI
-    const { triggerArea, headerTab } = createHeaderElements();
+    const { headerTab } = createHeaderElements();
     
     // Ẩn header và hiển thị tab
     function hideHeader() {
@@ -59,74 +51,36 @@ document.addEventListener('DOMContentLoaded', function() {
             header.classList.remove('header-hidden');
             headerTab.classList.remove('visible');
             body.classList.remove('header-is-hidden');
-            resetHeaderTimer();
+            
+            // Tự động ẩn header sau 3 giây
+            setTimeout(hideHeader, 3000);
         }
     }
     
-    // Thiết lập lại bộ đếm thời gian ẩn header
-    function resetHeaderTimer() {
-        clearTimeout(headerTimer);
-        headerTimer = setTimeout(hideHeader, 5000); // 5 giây
-    }
-    
-    // Kiểm tra nếu trang đang ở đầu trang
-    function isAtPageTop() {
-        return window.scrollY <= 20;
-    }
-    
-    // Khởi tạo sự kiện lắng nghe
-    function initHeaderEvents() {
-        if (!header) {
-            console.warn('Header not found!');
-            return;
-        }
-        
-        console.log('Initializing header events');
-        
-        // Khởi tạo bộ hẹn giờ ẩn header ngay lập tức
-        resetHeaderTimer();
-        
-        // Sự kiện cuộn trang
-        window.addEventListener('scroll', function() {
-            // Hiển thị header khi cuộn lên đầu trang
-            if (isAtPageTop()) {
-                showHeader();
-            } else {
-                resetHeaderTimer();
-            }
-        });
-        
-        // Sự kiện khi di chuột vào header
-        header.addEventListener('mouseenter', function() {
+    // Chuyển đổi trạng thái header (ẩn/hiện)
+    function toggleHeader() {
+        if (header.classList.contains('header-hidden')) {
             showHeader();
-        });
-        
-        // Sự kiện tương tác với trang để reset timer
-        ['click', 'touchstart', 'mousemove', 'keydown'].forEach(eventType => {
-            document.addEventListener(eventType, function() {
-                if (!header.classList.contains('header-hidden')) {
-                    resetHeaderTimer();
-                }
-            });
-        });
+        } else {
+            hideHeader();
+        }
     }
     
-    // Buộc ẩn header sau 1 giây để đảm bảo nó hoạt động
-    function forceHideHeaderAfterDelay() {
+    // Ẩn header khi trang tải xong
+    function hideHeaderOnLoad() {
         setTimeout(() => {
-            console.log('Force hiding header');
+            console.log('Initial header hiding');
             hideHeader();
-        }, 1000);
+        }, 500);
     }
     
     // Khởi tạo
-    initHeaderEvents();
-    forceHideHeaderAfterDelay();
+    hideHeaderOnLoad();
     
     // Export các hàm để có thể sử dụng ở nơi khác
     window.headerController = {
         hideHeader,
         showHeader,
-        resetHeaderTimer
+        toggleHeader
     };
 }); 

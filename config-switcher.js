@@ -338,12 +338,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 component.style.display = 'block';
             });
             
-            // Enable all dropdowns
+            // Enable all dropdowns and add highlight effect
             document.querySelectorAll('.component select').forEach(dropdown => {
                 dropdown.disabled = false;
+                
+                // Thêm class tùy chỉnh
+                dropdown.classList.add('custom-mode-dropdown');
+                
+                // Reset tất cả dropdowns nếu chúng không có giá trị hợp lệ
+                if (!dropdown.value || dropdown.value === '' || dropdown.selectedIndex <= 0) {
+                    const firstValidOption = Array.from(dropdown.options).find(opt => opt.value && opt.value !== '');
+                    if (firstValidOption) {
+                        dropdown.selectedIndex = 0; // Reset về giá trị mặc định
+                    }
+                }
             });
             
-            console.log('Tùy Chỉnh mode activated - all components should be visible');
+            // Thêm thông báo trực quan để người dùng biết họ có thể chọn linh kiện
+            const selectMessage = document.getElementById('custom-mode-message');
+            if (!selectMessage) {
+                const message = document.createElement('div');
+                message.id = 'custom-mode-message';
+                message.innerHTML = '<i class="fas fa-info-circle"></i> Vui lòng chọn linh kiện từ danh sách bên dưới';
+                message.style.textAlign = 'center';
+                message.style.margin = '10px 0';
+                message.style.padding = '8px';
+                message.style.backgroundColor = '#f0f7ff';
+                message.style.borderRadius = '5px';
+                message.style.color = '#2c74dc';
+                message.style.fontWeight = 'bold';
+                
+                const componentSection = document.querySelector('#component-selection .section-header');
+                if (componentSection) {
+                    componentSection.after(message);
+                }
+            }
+            
+            console.log('Tùy Chỉnh mode activated - all components should be visible and selectable');
         }
     }
 
