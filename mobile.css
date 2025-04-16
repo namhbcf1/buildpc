@@ -744,8 +744,7 @@ body .header.header-hidden {
 /* Custom mode dropdown highlight */
 .custom-mode-dropdown {
     border: 2px solid #2c74dc !important;
-    box-shadow: 0 0 8px rgba(44, 116, 220, 0.3) !important;
-    transition: all 0.3s ease !important;
+    box-shadow: 0 0 6px rgba(44, 116, 220, 0.2) !important;
     background-color: #f0f7ff !important;
     cursor: pointer !important;
     padding: 10px 12px !important;
@@ -753,19 +752,24 @@ body .header.header-hidden {
     -webkit-appearance: menulist !important;
     -moz-appearance: menulist !important;
     font-size: 16px !important; /* Ngăn iOS zoom vào form */
+    text-align: left !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    text-overflow: ellipsis !important;
+    transition: none !important; /* Loại bỏ transition để tránh lỗi */
 }
 
+/* Giảm thiểu hiệu ứng hover/focus để tránh lỗi */
 .custom-mode-dropdown:hover,
 .custom-mode-dropdown:focus {
     border-color: #1976d2 !important;
-    box-shadow: 0 0 12px rgba(44, 116, 220, 0.5) !important;
-    transform: translateY(-2px) !important;
+    box-shadow: 0 0 8px rgba(44, 116, 220, 0.3) !important;
     background-color: #e6f0ff !important;
+    outline: none !important;
 }
 
 .custom-mode-dropdown.active-dropdown {
     border-color: #1976d2 !important;
-    box-shadow: 0 0 15px rgba(44, 116, 220, 0.7) !important;
     background-color: #e6f0ff !important;
 }
 
@@ -773,93 +777,50 @@ body .header.header-hidden {
 @media (max-width: 768px) {
     .custom-mode-dropdown {
         height: 44px !important;
-        font-size: 16px !important; /* Ngăn iOS zoom vào form */
-        padding: 10px 12px !important;
+        font-size: 16px !important;
+        padding: 10px 30px 10px 12px !important; /* Thêm padding bên phải cho icon dropdown */
         margin-bottom: 12px !important;
         width: 100% !important;
         border-width: 2px !important;
         border-radius: 6px !important;
-    }
-    
-    /* Làm cho dropdown dễ thấy hơn */
-    .component {
-        margin-bottom: 20px !important;
-        padding: 15px !important;
-        border-radius: 8px !important;
-        background-color: #f9fafc !important;
-        border: 1px solid #e0e7f1 !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
-    }
-    
-    .component-header {
-        margin-bottom: 12px !important;
-    }
-    
-    /* Đảm bảo component có thể nhận sự kiện touch */
-    .component select {
-        touch-action: manipulation !important;
-    }
-}
-
-/* Fix cho Safari trên iOS */
-@supports (-webkit-touch-callout: none) {
-    .custom-mode-dropdown {
-        padding: 12px 30px 12px 12px !important; /* Thêm khoảng bên phải cho mũi tên dropdown */
+        background-color: #fff !important;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232c74dc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
         background-repeat: no-repeat !important;
         background-position: right 8px center !important;
         background-size: 16px !important;
     }
     
-    /* Tăng kích thước của nút chọn trên iOS */
+    /* Làm cho container của dropdown dễ thấy hơn */
+    .component {
+        margin-bottom: 20px !important;
+        padding: 15px !important;
+        border-radius: 8px !important;
+        background-color: #f9fafc !important;
+        border: 1px solid #e0e7f1 !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+        transition: none !important; /* Loại bỏ transition để tránh lỗi */
+    }
+    
+    .component-header {
+        margin-bottom: 12px !important;
+    }
+    
+    /* Tối ưu lựa chọn trên thiết bị cảm ứng */
     .component select {
-        height: 44px !important;
-        font-size: 16px !important; /* Ngăn iOS zoom vào form */
+        touch-action: manipulation !important;
     }
     
-    /* Đảm bảo các tùy chọn trong dropdown dễ chọn */
-    .component select option {
-        font-size: 16px !important;
-        padding: 10px !important;
+    /* Đảm bảo không hiển thị nhiều hơn 1 cái dropdown */
+    body .component select {
+        z-index: auto !important;
     }
     
-    /* Tắt hiệu ứng hover có thể gây lỗi trên iOS */
-    .component:hover {
-        transform: none !important;
-    }
-    
-    /* Fix cho iOS để hỗ trợ việc scroll trong các trang dài */
-    body {
-        -webkit-overflow-scrolling: touch !important;
-    }
-    
-    /* Hiển thị rõ ràng trạng thái focus */
-    .custom-mode-dropdown:focus {
-        border-color: #1976d2 !important;
-        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.5) !important;
-        outline: none !important;
-    }
-}
-
-/* Hướng dẫn bổ sung cho chế độ tùy chỉnh */
-.custom-mode-instructions {
-    margin: 15px 0 !important;
-    padding: 15px !important;
-    background-color: #f0f7ff !important;
-    border-radius: 8px !important;
-    border-left: 4px solid #2c74dc !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
-}
-
-/* Đảm bảo dropdown luôn hiển thị đúng - vá lỗi từ stylesheet khác */
-@media (max-width: 768px) {
+    /* Đảm bảo dropdown luôn hiển thị đúng - vá lỗi từ stylesheet khác */
     .component select {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
-        height: 44px !important;
-        border-radius: 6px !important;
     }
     
     /* Đảm bảo component label và icon hiển thị đẹp */
@@ -871,10 +832,42 @@ body .header.header-hidden {
     .component-header i {
         font-size: 16px !important;
     }
-    
-    /* Container phải có width: 100% để tránh vấn đề với flexbox */
-    .components-grid {
-        display: block !important;
-        width: 100% !important;
+}
+
+/* Tối ưu hóa cho iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    .custom-mode-dropdown {
+        appearance: menulist !important;
+        -webkit-appearance: menulist !important;
     }
+    
+    /* Touch target đủ lớn cho iOS */
+    select, input, button, .dropdown, .custom-mode-dropdown {
+        font-size: 16px !important; /* Ngăn iOS zoom */
+        height: 44px !important; /* Touch target tối thiểu */
+    }
+    
+    /* Đảm bảo options hiển thị đúng */
+    select option {
+        font-size: 16px !important;
+        line-height: 1.5 !important;
+    }
+    
+    /* Fix lỗi khoảng trắng phía dưới body trên iOS Safari */
+    html, body {
+        height: 100% !important;
+        min-height: 100% !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+}
+
+/* Hướng dẫn cho chế độ tùy chỉnh - đẹp và dễ đọc hơn */
+.custom-mode-instructions {
+    margin: 15px 0 !important;
+    padding: 15px !important;
+    background-color: #f0f7ff !important;
+    border-radius: 8px !important;
+    border-left: 4px solid #2c74dc !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
 } 
