@@ -910,6 +910,35 @@
     <script src="./buildsan.js" type="module"></script>
     <script src="config-switcher.js"></script>
     <script src="./fix-dropdown-selection.js"></script>
+    
+    <!-- Fix cho Safari và các trình duyệt không mở được dropdown -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Đặt sự kiện click trực tiếp trên tất cả dropdown
+            document.querySelectorAll('.component select').forEach(select => {
+                select.addEventListener('mousedown', function(e) {
+                    // Đảm bảo dropdown không bị disabled
+                    this.disabled = false;
+                    
+                    // Tìm và kích hoạt chế độ tùy chỉnh
+                    const customOption = document.querySelector('.config-option[data-config="custom"]');
+                    if (customOption) {
+                        customOption.classList.add('active');
+                    }
+                    
+                    // Loại bỏ bất kỳ thuộc tính nào có thể ngăn chặn việc mở
+                    this.style.pointerEvents = 'auto';
+                    this.style.cursor = 'pointer';
+                    
+                    // Trên Safari - đảm bảo dropdown có thể mở
+                    this.size = 2;
+                    setTimeout(() => { this.size = 1; }, 10);
+                    
+                    console.log('Dropdown đã được click:', this.id);
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -10,53 +10,68 @@ document.addEventListener('DOMContentLoaded', function() {
         document.dispatchEvent(new CustomEvent('fix-dropdown-ready'));
     }, 1000);
     
+    // Trực tiếp kích hoạt tất cả các dropdown ngay khi tải trang
+    enableAllDropdowns();
+    
     // Theo dõi khi nút "Tùy Chỉnh" được nhấp để kích hoạt các dropdown
     const customModeButton = document.querySelector('.config-option[data-config="custom"]');
     if (customModeButton) {
-        customModeButton.addEventListener('click', handleCustomModeClick);
+        customModeButton.addEventListener('click', function() {
+            console.log("Đã nhấp vào nút Tùy Chỉnh");
+            handleCustomModeClick();
+        });
     }
+    
+    // Thêm sự kiện click trực tiếp cho tất cả dropdown
+    document.querySelectorAll('.component select').forEach(dropdown => {
+        // Đảm bảo dropdown có thể nhận click
+        dropdown.addEventListener('mousedown', function(e) {
+            console.log("Click trên dropdown:", this.id);
+            // Đảm bảo dropdown không bị disabled
+            this.disabled = false;
+            
+            // Kích hoạt chế độ tùy chỉnh nếu chưa được chọn
+            const customOption = document.querySelector('.config-option[data-config="custom"]');
+            if (customOption && !customOption.classList.contains('active')) {
+                customOption.click();
+            }
+        });
+        
+        // Thay thế dropdown để xóa các sự kiện có thể ngăn chặn
+        const newDropdown = dropdown.cloneNode(true);
+        dropdown.parentNode.replaceChild(newDropdown, dropdown);
+        
+        // Thêm sự kiện change mới cho dropdown
+        newDropdown.addEventListener('change', function() {
+            console.log('Dropdown đã thay đổi:', this.id, 'Giá trị:', this.value);
+            // Đảm bảo ở chế độ tùy chỉnh
+            const customOption = document.querySelector('.config-option[data-config="custom"]');
+            if (customOption) {
+                customOption.classList.add('active');
+            }
+        });
+    });
     
     // Đảm bảo dropdown selection luôn hoạt động đúng trong chế độ tùy chỉnh
     function fixDropdownSelection() {
         // Sử dụng MutationObserver để theo dõi các thay đổi trong DOM
         const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                // Khi một dropdown được thêm hoặc thuộc tính của nó thay đổi
-                if (mutation.type === 'attributes' || mutation.type === 'childList') {
-                    // Kiểm tra tất cả các dropdown trong phần cấu hình
-                    const configModeName = document.querySelector('.config-mode-name');
-                    const customOptionActive = document.querySelector('.config-option[data-config="custom"].active');
-                    if ((configModeName && configModeName.textContent.includes('Tùy Chỉnh')) || customOptionActive) {
-                        const dropdowns = document.querySelectorAll('.component select');
-                        dropdowns.forEach(dropdown => {
-                            // Đảm bảo dropdown không bị vô hiệu hóa trong chế độ tùy chỉnh
-                            dropdown.disabled = false;
-                            dropdown.parentElement.classList.remove('disabled');
-                            
-                            // Đảm bảo sự kiện onchange vẫn hoạt động
-                            dropdown.onchange = function() {
-                                const componentType = this.getAttribute('data-component-type');
-                                const selectedValue = this.value;
-                                console.log(`Đã chọn ${selectedValue} cho ${componentType}`);
-                                
-                                // Cập nhật cấu hình hiện tại với lựa chọn mới
-                                try {
-                                    window.currentConfigurations = window.currentConfigurations || {};
-                                    window.currentConfigurations[componentType] = selectedValue;
-                                } catch (error) {
-                                    console.error('Lỗi khi cập nhật cấu hình:', error);
-                                }
-                            };
-                        });
-                    }
-                }
-            });
+            enableAllDropdowns();
         });
 
-        // Bắt đầu quan sát các thay đổi trên toàn bộ phần cấu hình
-        const configContainer = document.querySelector('.config-container');
-        if (configContainer) {
-            observer.observe(configContainer, { 
+        // Bắt đầu quan sát các thay đổi trên toàn bộ phần components-grid
+        const componentsGrid = document.querySelector('.components-grid');
+        if (componentsGrid) {
+            observer.observe(componentsGrid, { 
+                attributes: true, 
+                childList: true, 
+                subtree: true,
+                attributeFilter: ['disabled', 'class'] 
+            });
+        } else {
+            console.warn('Không tìm thấy .components-grid để quan sát');
+            // Quan sát toàn bộ body nếu không tìm thấy components-grid
+            observer.observe(document.body, { 
                 attributes: true, 
                 childList: true, 
                 subtree: true,
@@ -64,67 +79,66 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Thiết lập interval để kiểm tra và sửa chữa các dropdown định kỳ
-        setInterval(() => {
-            const configModeName = document.querySelector('.config-mode-name');
-            const customOptionActive = document.querySelector('.config-option[data-config="custom"].active');
-            if ((configModeName && configModeName.textContent.includes('Tùy Chỉnh')) || customOptionActive) {
-                const dropdowns = document.querySelectorAll('.component select');
-                dropdowns.forEach(dropdown => {
-                    dropdown.disabled = false;
-                    dropdown.parentElement.classList.remove('disabled');
-                });
-            }
-        }, 500);
+        // Thiết lập interval để liên tục kích hoạt tất cả dropdown
+        setInterval(enableAllDropdowns, 500);
+    }
+    
+    // Kích hoạt tất cả dropdown để đảm bảo chúng có thể chọn được
+    function enableAllDropdowns() {
+        const dropdowns = document.querySelectorAll('.component select');
+        dropdowns.forEach(dropdown => {
+            // Đảm bảo dropdown không bị vô hiệu hóa
+            dropdown.disabled = false;
+            
+            // Thêm class để áp dụng CSS làm nổi bật
+            dropdown.classList.add('custom-mode-dropdown');
+            
+            // Đảm bảo tất cả option có thể chọn được (trừ option đầu tiên nếu là placeholder)
+            Array.from(dropdown.options).forEach((option, index) => {
+                if (index === 0 && option.value === "") {
+                    // Giữ nguyên option đầu tiên (placeholder)
+                } else {
+                    option.disabled = false;
+                }
+            });
+            
+            // Đảm bảo dropdown có thể tương tác
+            dropdown.style.pointerEvents = 'auto';
+            dropdown.style.cursor = 'pointer';
+            
+            // Xóa thuộc tính readonly nếu có
+            dropdown.removeAttribute('readonly');
+            
+            // Bỏ qua sự kiện preventDefault nếu có
+            dropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            }, true);
+            
+            dropdown.parentElement.classList.remove('disabled');
+        });
     }
     
     // Xử lý khi chế độ tùy chỉnh được chọn
     function handleCustomModeClick() {
+        console.log('Đang xử lý kích hoạt chế độ tùy chỉnh...');
+        
         // Đợi một chút để đảm bảo các xử lý khác đã hoàn tất
         setTimeout(() => {
             // Kích hoạt tất cả dropdown
             fixDropdownSelection();
-            
-            // Xóa tất cả cấu hình hiện tại
-            clearAllConfigurations();
+            enableAllDropdowns();
             
             // Thêm hướng dẫn cho người dùng
             addCustomModeInstructions();
             
-            // Đảm bảo các dropdown được hiển thị và có thể tương tác
-            const dropdowns = document.querySelectorAll('.component select');
-            dropdowns.forEach(dropdown => {
-                dropdown.disabled = false;
-                dropdown.parentElement.classList.remove('disabled');
-                dropdown.style.pointerEvents = 'auto';
-            });
-            
-            console.log('Đã kích hoạt chế độ tùy chỉnh và reset tất cả dropdown');
-        }, 200);
+            console.log('Đã kích hoạt chế độ tùy chỉnh và kích hoạt tất cả dropdown');
+        }, 100);
     }
     
     // Xóa tất cả cấu hình hiện tại và chuẩn bị cho việc chọn lại
     function clearAllConfigurations() {
-        // Thiết lập lại tất cả dropdown về giá trị mặc định
-        const dropdowns = document.querySelectorAll('.component select');
-        dropdowns.forEach(dropdown => {
-            // Đặt về giá trị đầu tiên hoặc để trống
-            if (dropdown.options.length > 0) {
-                dropdown.selectedIndex = 0;
-            }
-            
-            // Thêm sự kiện theo dõi thay đổi
-            dropdown.addEventListener('change', function() {
-                const componentType = this.getAttribute('data-component-type');
-                const selectedValue = this.value;
-                console.log(`Chế độ tùy chỉnh: Đã chọn ${selectedValue} cho ${componentType}`);
-            });
-        });
-        
-        // Khởi tạo lại đối tượng lưu trữ cấu hình nếu cần
-        window.currentConfigurations = {};
-        
-        console.log('Đã xóa tất cả cấu hình và chuẩn bị cho việc chọn lại');
+        // Thiết lập lại tất cả dropdown về giá trị mặc định nếu cần
+        // Bình thường không cần reset khi người dùng muốn tùy chỉnh
     }
     
     // Thêm hướng dẫn cho người dùng trong chế độ tùy chỉnh
@@ -156,22 +170,25 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         
         // Chèn hướng dẫn vào trước phần dropdown
-        const componentsSection = document.querySelector('.components-section');
-        if (componentsSection) {
-            componentsSection.insertBefore(instructions, componentsSection.firstChild);
+        const componentSection = document.querySelector('#component-selection .section-header');
+        if (componentSection) {
+            componentSection.after(instructions);
         }
     }
     
-    // Trigger khi trang đã tải xong
+    // Kích hoạt một lần nữa khi trang đã tải xong
     document.addEventListener('fix-dropdown-ready', function() {
         handleCustomModeClick();
         
         // Kiểm tra nếu chế độ tùy chỉnh đã được chọn
         const customOption = document.querySelector('.config-option[data-config="custom"]');
-        if (customOption && customOption.classList.contains('active')) {
-            setTimeout(() => {
-                customOption.click(); // Kích hoạt click event để chạy hàm xử lý
-            }, 500);
+        if (customOption) {
+            // Luôn kích hoạt chế độ tùy chỉnh mặc định
+            if (!customOption.classList.contains('active')) {
+                customOption.click();
+            } else {
+                handleCustomModeClick(); // Vẫn xử lý để đảm bảo tất cả dropdown được kích hoạt
+            }
         }
     });
 }); 

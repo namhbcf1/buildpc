@@ -796,4 +796,71 @@ body .header.header-hidden {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
     transform: translateY(-2px) !important;
     transition: all 0.3s ease !important;
+}
+
+/* Thêm CSS cụ thể cho dropdown ở chế độ tùy chỉnh */
+.component select {
+    cursor: pointer !important;
+    -webkit-appearance: menulist !important;
+    -moz-appearance: menulist !important;
+    appearance: menulist !important;
+    background-color: #f8f9fa !important;
+    border-radius: 4px !important;
+    padding: 8px 12px !important;
+    border: 1px solid #ced4da !important;
+    transition: all 0.3s ease !important;
+}
+
+.component select:hover, 
+.component select:focus {
+    border-color: #80bdff !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+
+/* Làm nổi bật dropdown khi ở chế độ tùy chỉnh */
+.custom-mode-dropdown {
+    border: 2px solid #007bff !important;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25) !important;
+    background-color: #ffffff !important;
+    cursor: pointer !important;
+    font-weight: 500 !important;
+}
+
+/* Safari và các trình duyệt basé-webkit */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .component select {
+        -webkit-appearance: menulist !important;
+    }
+}
+
+/* Firefox */
+@-moz-document url-prefix() {
+    .component select {
+        -moz-appearance: menulist !important;
+    }
+}
+
+/* Đảm bảo dropdown có thể hiển thị đầy đủ danh sách tùy chọn */
+.component select option {
+    padding: 8px !important;
+    background-color: white !important;
+    color: #333 !important;
+}
+
+/* Khắc phục vấn đề ẩn dropdown trên thiết bị di động */
+@media (max-width: 768px) {
+    .component select {
+        height: 40px !important;
+        font-size: 16px !important; /* Ngăn iOS zoom vào form */
+    }
+    
+    /* Đảm bảo dropdown luôn hiển thị đúng trên mobile */
+    .component {
+        margin-bottom: 15px !important;
+    }
+    
+    .custom-mode-dropdown {
+        border-width: 2px !important;
+    }
 } 
