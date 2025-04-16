@@ -1,0 +1,85 @@
+warning: in the working copy of 'index.html', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/index.html b/index.html[m
+[1mindex 2fa6c45..8fe57b8 100644[m
+[1m--- a/index.html[m
+[1m+++ b/index.html[m
+[36m@@ -909,6 +909,78 @@[m
+     <!-- Script for the interactive PC builder -->[m
+     <script src="./buildsan.js" type="module"></script>[m
+     <script src="config-switcher.js"></script>[m
+[32m+[m[41m    [m
+[32m+[m[32m    <!-- Script để đảm bảo dropdown có thể chọn được -->[m
+[32m+[m[32m    <script>[m
+[32m+[m[32m        document.addEventListener('DOMContentLoaded', function() {[m
+[32m+[m[32m            // Fix cho dropdown không chọn được trong chế độ tùy chỉnh[m
+[32m+[m[32m            function makeDropdownsSelectable() {[m
+[32m+[m[32m                // Cho phép tất cả dropdown có thể chọn được[m
+[32m+[m[32m                document.querySelectorAll('.component select').forEach(dropdown => {[m
+[32m+[m[32m                    // Đảm bảo dropdown được kích hoạt[m
+[32m+[m[32m                    dropdown.disabled = false;[m
+[32m+[m[41m                    [m
+[32m+[m[32m                    // Xóa bất kỳ event listener nào có thể ngăn chặn lựa chọn[m
+[32m+[m[32m                    const newDropdown = dropdown.cloneNode(true);[m
+[32m+[m[32m                    dropdown.parentNode.replaceChild(newDropdown, dropdown);[m
+[32m+[m[41m                    [m
+[32m+[m[32m                    // Thêm sự kiện change mới[m
+[32m+[m[32m                    newDropdown.addEventListener('change', function(e) {[m
+[32m+[m[32m                        console.log('Selected value:', this.value);[m
+[32m+[m[32m                        this.classList.add('has-value');[m
+[32m+[m[41m                        [m
+[32m+[m[32m                        // Kích hoạt chế độ tùy chỉnh[m
+[32m+[m[32m                        const customOption = document.querySelector('.config-option[data-config="custom"]');[m
+[32m+[m[32m                        if (customOption) {[m
+[32m+[m[32m                            // Click để kích hoạt[m
+[32m+[m[32m                            customOption.click();[m
+[32m+[m[32m                        }[m
+[32m+[m[32m                    });[m
+[32m+[m[32m                });[m
+[32m+[m[32m            }[m
+[32m+[m[41m            [m
+[32m+[m[32m            // Xử lý khi người dùng click vào chế độ tùy chỉnh[m
+[32m+[m[32m            document.querySelector('.config-option[data-config="custom"]').addEventListener('click', function() {[m
+[32m+[m[32m                // Đảm bảo dropdown có thể chọn được[m
+[32m+[m[32m                setTimeout(makeDropdownsSelectable, 100);[m
+[32m+[m[41m                [m
+[32m+[m[32m                // Thêm thông báo rõ ràng hơn[m[41m [m
+[32m+[m[32m                const messageHTML = `[m
+[32m+[m[32m                    <div class="custom-mode-alert" style="padding: 15px; background-color: #e6f0ff; border-radius: 8px; margin: 15px 0; text-align: center; border: 2px solid #2c74dc; animation: pulse 2s infinite;">[m
+[32m+[m[32m                        <p style="margin: 0; font-weight: bold; color: #2c74dc;">[m
+[32m+[m[32m                            <i class="fas fa-info-circle"></i>[m[41m [m
+[32m+[m[32m                            Bạn đang ở chế độ TÙY CHỈNH. Bấm vào các dropdown bên dưới để lựa chọn linh kiện.[m
+[32m+[m[32m                        </p>[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                `;[m
+[32m+[m[41m                [m
+[32m+[m[32m                // Chèn thông báo vào đầu components-grid[m
+[32m+[m[32m                const componentsGrid = document.querySelector('.components-grid');[m
+[32m+[m[32m                if (componentsGrid) {[m
+[32m+[m[32m                    const tempDiv = document.createElement('div');[m
+[32m+[m[32m                    tempDiv.innerHTML = messageHTML;[m
+[32m+[m[32m                    const alertDiv = tempDiv.firstElementChild;[m
+[32m+[m[41m                    [m
+[32m+[m[32m                    // Xóa thông báo cũ nếu có[m
+[32m+[m[32m                    const oldAlert = document.querySelector('.custom-mode-alert');[m
+[32m+[m[32m                    if (oldAlert) oldAlert.remove();[m
+[32m+[m[41m                    [m
+[32m+[m[32m                    // Thêm thông báo mới[m
+[32m+[m[32m                    componentsGrid.parentNode.insertBefore(alertDiv, componentsGrid);[m
+[32m+[m[32m                }[m
+[32m+[m[32m            });[m
+[32m+[m[41m            [m
+[32m+[m[32m            // Kích hoạt các chức năng ngay khi trang tải xong[m
+[32m+[m[32m            setTimeout(function() {[m
+[32m+[m[32m                // Kiểm tra nếu chế độ tùy chỉnh đã được chọn[m
+[32m+[m[32m                const customOption = document.querySelector('.config-option[data-config="custom"]');[m
+[32m+[m[32m                if (customOption && customOption.classList.contains('active')) {[m
+[32m+[m[32m                    customOption.click();[m
+[32m+[m[32m                }[m
+[32m+[m[32m            }, 500);[m
+[32m+[m[32m        });[m
+[32m+[m[32m    </script>[m
+[32m+[m[32m    <script src="./fix-dropdown-selection.js"></script>[m
+ </body>[m
+ [m
+ </html>[m
+\ No newline at end of file[m

@@ -338,43 +338,68 @@ document.addEventListener('DOMContentLoaded', function() {
                 component.style.display = 'block';
             });
             
-            // Enable all dropdowns and add highlight effect
+            // Thông báo cho người dùng biết họ có thể chọn tự do
+            showCustomModeMessage();
+            
+            // Enable all dropdowns and make them interactive
             document.querySelectorAll('.component select').forEach(dropdown => {
+                // Đảm bảo dropdown không bị disabled
                 dropdown.disabled = false;
                 
-                // Thêm class tùy chỉnh
+                // Thêm class tùy chỉnh để làm nổi bật
                 dropdown.classList.add('custom-mode-dropdown');
                 
-                // Reset tất cả dropdowns nếu chúng không có giá trị hợp lệ
-                if (!dropdown.value || dropdown.value === '' || dropdown.selectedIndex <= 0) {
-                    const firstValidOption = Array.from(dropdown.options).find(opt => opt.value && opt.value !== '');
-                    if (firstValidOption) {
-                        dropdown.selectedIndex = 0; // Reset về giá trị mặc định
-                    }
-                }
+                // Đảm bảo các options trong dropdown đều có thể chọn được
+                Array.from(dropdown.options).forEach(option => {
+                    option.disabled = option.value === "";
+                });
+                
+                // Kích hoạt sự kiện click để làm nổi bật dropdown
+                dropdown.addEventListener('click', function() {
+                    // Đảm bảo dropdown có thể mở ra khi click
+                    this.focus();
+                    this.classList.add('active-dropdown');
+                });
             });
             
-            // Thêm thông báo trực quan để người dùng biết họ có thể chọn linh kiện
-            const selectMessage = document.getElementById('custom-mode-message');
-            if (!selectMessage) {
-                const message = document.createElement('div');
-                message.id = 'custom-mode-message';
-                message.innerHTML = '<i class="fas fa-info-circle"></i> Vui lòng chọn linh kiện từ danh sách bên dưới';
-                message.style.textAlign = 'center';
-                message.style.margin = '10px 0';
-                message.style.padding = '8px';
-                message.style.backgroundColor = '#f0f7ff';
-                message.style.borderRadius = '5px';
-                message.style.color = '#2c74dc';
-                message.style.fontWeight = 'bold';
-                
-                const componentSection = document.querySelector('#component-selection .section-header');
-                if (componentSection) {
-                    componentSection.after(message);
-                }
-            }
-            
             console.log('Tùy Chỉnh mode activated - all components should be visible and selectable');
+        }
+    }
+    
+    // Thêm thông báo trực quan để người dùng biết họ có thể chọn linh kiện
+    function showCustomModeMessage() {
+        const existingMessage = document.getElementById('custom-mode-message');
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+        
+        const message = document.createElement('div');
+        message.id = 'custom-mode-message';
+        message.innerHTML = '<i class="fas fa-info-circle"></i> Vui lòng bấm vào các dropdown bên dưới để chọn linh kiện tùy thích';
+        message.style.textAlign = 'center';
+        message.style.margin = '10px 0';
+        message.style.padding = '12px';
+        message.style.backgroundColor = '#f0f7ff';
+        message.style.borderRadius = '5px';
+        message.style.color = '#2c74dc';
+        message.style.fontWeight = 'bold';
+        message.style.border = '2px solid #2c74dc';
+        message.style.animation = 'pulse 2s infinite';
+        
+        // Thêm CSS cho animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { box-shadow: 0 0 0 0 rgba(44, 116, 220, 0.4); }
+                70% { box-shadow: 0 0 0 10px rgba(44, 116, 220, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(44, 116, 220, 0); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        const componentSection = document.querySelector('#component-selection .section-header');
+        if (componentSection) {
+            componentSection.after(message);
         }
     }
 
