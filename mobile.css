@@ -748,10 +748,11 @@ body .header.header-hidden {
     transition: all 0.3s ease !important;
     background-color: #f0f7ff !important;
     cursor: pointer !important;
-    padding: 8px 12px !important;
+    padding: 10px 12px !important;
     appearance: menulist !important;
     -webkit-appearance: menulist !important;
     -moz-appearance: menulist !important;
+    font-size: 16px !important; /* Ngăn iOS zoom vào form */
 }
 
 .custom-mode-dropdown:hover,
@@ -771,96 +772,109 @@ body .header.header-hidden {
 /* Đảm bảo dropdown có đủ kích thước để dễ nhấp vào trên thiết bị di động */
 @media (max-width: 768px) {
     .custom-mode-dropdown {
-        height: 40px !important;
-        font-size: 14px !important;
-        padding: 8px 12px !important;
-        margin-bottom: 8px !important;
+        height: 44px !important;
+        font-size: 16px !important; /* Ngăn iOS zoom vào form */
+        padding: 10px 12px !important;
+        margin-bottom: 12px !important;
+        width: 100% !important;
+        border-width: 2px !important;
+        border-radius: 6px !important;
     }
     
     /* Làm cho dropdown dễ thấy hơn */
     .component {
-        margin-bottom: 15px !important;
-        padding: 12px !important;
+        margin-bottom: 20px !important;
+        padding: 15px !important;
         border-radius: 8px !important;
         background-color: #f9fafc !important;
         border: 1px solid #e0e7f1 !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
     }
     
     .component-header {
-        margin-bottom: 10px !important;
+        margin-bottom: 12px !important;
+    }
+    
+    /* Đảm bảo component có thể nhận sự kiện touch */
+    .component select {
+        touch-action: manipulation !important;
     }
 }
 
-/* Cải thiện hiệu ứng khi hover vào component */
-.component:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
-    transform: translateY(-2px) !important;
-    transition: all 0.3s ease !important;
-}
-
-/* Thêm CSS cụ thể cho dropdown ở chế độ tùy chỉnh */
-.component select {
-    cursor: pointer !important;
-    -webkit-appearance: menulist !important;
-    -moz-appearance: menulist !important;
-    appearance: menulist !important;
-    background-color: #f8f9fa !important;
-    border-radius: 4px !important;
-    padding: 8px 12px !important;
-    border: 1px solid #ced4da !important;
-    transition: all 0.3s ease !important;
-}
-
-.component select:hover, 
-.component select:focus {
-    border-color: #80bdff !important;
-    outline: 0 !important;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
-}
-
-/* Làm nổi bật dropdown khi ở chế độ tùy chỉnh */
-.custom-mode-dropdown {
-    border: 2px solid #007bff !important;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25) !important;
-    background-color: #ffffff !important;
-    cursor: pointer !important;
-    font-weight: 500 !important;
-}
-
-/* Safari và các trình duyệt basé-webkit */
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    .component select {
-        -webkit-appearance: menulist !important;
+/* Fix cho Safari trên iOS */
+@supports (-webkit-touch-callout: none) {
+    .custom-mode-dropdown {
+        padding: 12px 30px 12px 12px !important; /* Thêm khoảng bên phải cho mũi tên dropdown */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232c74dc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 8px center !important;
+        background-size: 16px !important;
     }
-}
-
-/* Firefox */
-@-moz-document url-prefix() {
+    
+    /* Tăng kích thước của nút chọn trên iOS */
     .component select {
-        -moz-appearance: menulist !important;
-    }
-}
-
-/* Đảm bảo dropdown có thể hiển thị đầy đủ danh sách tùy chọn */
-.component select option {
-    padding: 8px !important;
-    background-color: white !important;
-    color: #333 !important;
-}
-
-/* Khắc phục vấn đề ẩn dropdown trên thiết bị di động */
-@media (max-width: 768px) {
-    .component select {
-        height: 40px !important;
+        height: 44px !important;
         font-size: 16px !important; /* Ngăn iOS zoom vào form */
     }
     
-    /* Đảm bảo dropdown luôn hiển thị đúng trên mobile */
-    .component {
-        margin-bottom: 15px !important;
+    /* Đảm bảo các tùy chọn trong dropdown dễ chọn */
+    .component select option {
+        font-size: 16px !important;
+        padding: 10px !important;
     }
     
-    .custom-mode-dropdown {
-        border-width: 2px !important;
+    /* Tắt hiệu ứng hover có thể gây lỗi trên iOS */
+    .component:hover {
+        transform: none !important;
+    }
+    
+    /* Fix cho iOS để hỗ trợ việc scroll trong các trang dài */
+    body {
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    /* Hiển thị rõ ràng trạng thái focus */
+    .custom-mode-dropdown:focus {
+        border-color: #1976d2 !important;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.5) !important;
+        outline: none !important;
+    }
+}
+
+/* Hướng dẫn bổ sung cho chế độ tùy chỉnh */
+.custom-mode-instructions {
+    margin: 15px 0 !important;
+    padding: 15px !important;
+    background-color: #f0f7ff !important;
+    border-radius: 8px !important;
+    border-left: 4px solid #2c74dc !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Đảm bảo dropdown luôn hiển thị đúng - vá lỗi từ stylesheet khác */
+@media (max-width: 768px) {
+    .component select {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        height: 44px !important;
+        border-radius: 6px !important;
+    }
+    
+    /* Đảm bảo component label và icon hiển thị đẹp */
+    .component-header h3 {
+        font-size: 15px !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .component-header i {
+        font-size: 16px !important;
+    }
+    
+    /* Container phải có width: 100% để tránh vấn đề với flexbox */
+    .components-grid {
+        display: block !important;
+        width: 100% !important;
     }
 } 

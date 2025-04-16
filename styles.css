@@ -2832,7 +2832,6 @@ footer {
     .section-header h2 {
         font-size: 1.3rem;
     }
-}
 
     .cpu-brand-selection {
         gap: 15px;
@@ -3274,5 +3273,19 @@ header .phone-number i {
     /* Fix for iOS tap highlight */
     * {
         -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+}
+
+@media (max-width: 768px) {
+    .header-tab {
+        font-size: 12px;
+        padding: 5px 10px;
+        width: 120px !important;
+        text-align: center !important;
+    }
+    
+    /* Increase margin top for main container to compensate for the fixed header tab */
+    .main-container {
+        margin-top: 60px !important; 
     }
 }
