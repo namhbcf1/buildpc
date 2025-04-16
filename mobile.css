@@ -87,6 +87,7 @@ header, .header {
     z-index: 1000;
     width: 100%;
     background-color: rgba(0, 63, 136, 0.9); /* Ensuring background is visible */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 header .logo {
@@ -387,6 +388,11 @@ header .phone-number i {
     .footer-social {
         margin-top: 1rem;
     }
+
+    .header-tab {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
 }
 
 /* Extra small mobile devices (under 480px) - further compressing header */
@@ -507,6 +513,11 @@ header .phone-number i {
     /* Smaller games grid for very small screens */
     .games-list {
         grid-template-columns: 1fr;
+    }
+
+    .header-tab {
+        font-size: 11px;
+        padding: 3px 10px !important;
     }
 }
 
@@ -654,5 +665,79 @@ header .phone-number i {
     /* Remove tap highlight */
     * {
         -webkit-tap-highlight-color: transparent;
+    }
+
+    .header-trigger-area,
+    .header-tab {
+        position: sticky;
+    }
+
+    header, .header {
+        position: sticky;
+    }
+    
+    body.header-hidden header, 
+    body.header-hidden .header {
+        position: fixed;
+    }
+}
+
+/* Header Auto-Hide Functionality */
+.header-trigger-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    z-index: 999;
+    display: none;
+}
+
+/* Show trigger area only when header is hidden */
+body.header-is-hidden .header-trigger-area {
+    display: block;
+}
+
+/* Apply transition to header for smooth hiding/showing */
+header, .header {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Style for hidden header */
+.header-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* Header tab that appears when header is hidden */
+.header-tab {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 63, 136, 0.9);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 0 0 10px 10px;
+    cursor: pointer;
+    z-index: 998;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: none;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.header-tab.visible {
+    display: block;
+    opacity: 1;
+}
+
+/* Adjust styles for mobile */
+@media (max-width: 768px) {
+    .header-tab {
+        font-size: 12px;
+        padding: 5px 10px;
     }
 } 
