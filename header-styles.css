@@ -1,0 +1,70 @@
+/**
+ * Header Styles Override - Đảm bảo header luôn ẩn đi khi cuộn
+ */
+
+/* Ẩn header mọi lúc khi có class header-hidden */
+body .header-hidden,
+body header.header-hidden,
+body .header.header-hidden,
+body.header-is-hidden header,
+body.header-is-hidden .header {
+    transform: translateY(-100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Đảm bảo header không hiển thị khi cuộn lên đầu trang */
+body.at-page-top header.header-hidden,
+body.at-page-top .header.header-hidden,
+body[class*="at-page-top"] header.header-hidden,
+body[class*="at-page-top"] .header.header-hidden {
+    transform: translateY(-100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Ẩn tất cả vùng kích hoạt */
+.header-trigger-area,
+[class*="header-trigger"] {
+    display: none !important;
+}
+
+/* Button hiển thị menu */
+.header-tab {
+    position: fixed !important;
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background-color: rgba(0, 63, 136, 0.9) !important;
+    color: white !important;
+    padding: 8px 15px !important;
+    border-radius: 0 0 10px 10px !important;
+    cursor: pointer !important;
+    z-index: 9999 !important; /* Đảm bảo nút luôn hiển thị phía trên cùng */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    display: none !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease-in-out !important;
+    text-align: center !important;
+    width: 120px !important;
+}
+
+.header-tab.visible {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+/* Override các hiệu ứng scroll có thể từ các file CSS khác */
+@media (max-width: 768px), (min-width: 769px) {
+    body.at-page-top header.header-hidden,
+    body.at-page-top .header.header-hidden {
+        transform: translateY(-100%) !important;
+        opacity: 0 !important;
+    }
+    
+    .main-container {
+        margin-top: 60px !important;
+    }
+} 
